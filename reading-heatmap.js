@@ -2,7 +2,6 @@
 const dom = {
     total: document.getElementById('total-books'),
     heatmap: document.getElementById('reading-heatmap'),
-    legend: document.getElementById('heatmap-legend'),
     currentList: document.getElementById('current-books'),
     pastList: document.getElementById('past-books')
 };
@@ -143,8 +142,7 @@ function renderHeatmap() {
 
     wrapper.appendChild(body);
     dom.heatmap.appendChild(wrapper);
-    dom.legend.innerHTML = '';
-    dom.legend.appendChild(createLegend());
+    dom.heatmap.appendChild(createLegend());
 }
 
 function renderBookColumns() {
@@ -208,6 +206,9 @@ function getBooksForMonth(year, month) {
 }
 
 function createLegend() {
+    const legendContainer = document.createElement('div');
+    legendContainer.className = 'heatmap-legend-wrapper';
+
     const legend = document.createElement('div');
     legend.className = 'heatmap-legend';
     const items = [
@@ -216,10 +217,6 @@ function createLegend() {
         { label: '3권', level: 3 },
         { label: '4권 이상', level: 4 }
     ];
-
-    const title = document.createElement('span');
-    title.textContent = 'Legend:';
-    legend.appendChild(title);
 
     items.forEach(item => {
         const wrapper = document.createElement('span');
@@ -236,7 +233,8 @@ function createLegend() {
         legend.appendChild(wrapper);
     });
 
-    return legend;
+    legendContainer.appendChild(legend);
+    return legendContainer;
 }
 
 function buildMonthHeader() {
