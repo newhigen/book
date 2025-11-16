@@ -172,7 +172,7 @@ p#total-books {
 
 .books-column,
 .heatmap-column {
-    flex: 1 1 320px;
+    flex: 1;
     min-width: 240px;
     max-width: 320px;
     background: #fff;
@@ -269,13 +269,13 @@ p#total-books {
 
     .reading-layout {
         flex-direction: column;
-        gap: 12px;
+        gap: 8px;
     }
 
     .heatmap-column,
     .books-column {
         flex: 0 0 100%;
-        max-width: 420px;
+        max-width: 360px;
         width: 100%;
         min-width: 0;
         margin: 0 auto;
