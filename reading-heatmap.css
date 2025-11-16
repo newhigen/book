@@ -32,6 +32,32 @@ p#total-books {
     margin-bottom: 12px;
 }
 
+.heatmap-header {
+    width: 100%;
+    text-align: center;
+    margin-bottom: 16px;
+}
+
+.heatmap-title {
+    margin: 0;
+    font-size: 22px;
+    font-weight: 600;
+    color: #1f2328;
+}
+
+.heatmap-summary {
+    margin: 6px 0 0;
+    font-size: 14px;
+    color: #586069;
+}
+
+.heatmap-empty {
+    color: #6a737d;
+    font-size: 14px;
+    margin: 0;
+    text-align: center;
+}
+
 .reading-layout {
     display: flex;
     gap: 32px;

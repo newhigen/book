@@ -1,6 +1,5 @@
 // DOM 캐시와 상태를 분리해 두면 아래 함수들이 깔끔해진다.
 const dom = {
-    total: document.getElementById('total-books'),
     heatmap: document.getElementById('reading-heatmap'),
     currentList: document.getElementById('current-books'),
     pastList: document.getElementById('past-books')
@@ -22,10 +21,9 @@ async function init() {
         buildDerivedData();
         renderHeatmap();
         renderBookColumns();
-        dom.total.textContent = `총 ${state.books.length}권의 책을 읽었어요`;
     } catch (error) {
         console.error('CSV를 불러오는 중 문제가 발생했습니다.', error);
-        dom.total.textContent = '데이터를 불러오지 못했어요.';
+        dom.heatmap.textContent = '데이터를 불러오지 못했어요.';
     }
 }
 
@@ -69,8 +67,11 @@ function buildDerivedData() {
 
 function renderHeatmap() {
     dom.heatmap.innerHTML = '';
-    if (state.books.length === 0) {
-        dom.heatmap.textContent = '표시할 데이터가 없어요.';
+    const totalCount = state.books.length;
+    dom.heatmap.appendChild(createHeatmapHeader(totalCount));
+
+    if (totalCount === 0) {
+        dom.heatmap.appendChild(createEl('p', 'heatmap-empty', '표시할 데이터가 없어요.'));
         return;
     }
 
@@ -238,3 +239,11 @@ function getOrCreate(map, key) {
 }
 
 const formatMonth = month => `${month}월`;
+const formatTotal = count => `총 ${count}권 읽었어요`;
+
+function createHeatmapHeader(totalCount) {
+    const header = createEl('div', 'heatmap-header');
+    header.appendChild(createEl('h2', 'heatmap-title', '독서 히트맵'));
+    header.appendChild(createEl('p', 'heatmap-summary', formatTotal(totalCount)));
+    return header;
+}
