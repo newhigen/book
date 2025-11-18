@@ -386,23 +386,17 @@ body.dark-mode .column-card {
     border-color: #30363d;
 }
 
-body.dark-mode .control-button {
-    background: #1f2328;
-    color: #e6edf3;
-    border-color: #30363d;
-}
-
-body.dark-mode .control-button[aria-pressed="true"] {
-    background: #e6edf3;
-    color: #1f2328;
-    border-color: #e6edf3;
-}
-
+body.dark-mode .control-button,
+body.dark-mode .control-button[aria-pressed="true"],
 body.dark-mode .language-toggle,
 body.dark-mode .language-toggle[aria-pressed="true"] {
-    background: #ffffff;
-    color: #1f2328;
-    border-color: #d0d7de;
+    background: #0f172a;
+    color: #f8fafc;
+    border-color: #4b5563;
+}
+
+body.dark-mode .heatmap-title {
+    color: #f8fafc;
 }
 
 body.dark-mode .heatmap-header,
@@ -414,7 +408,11 @@ body.dark-mode .books-column li span.month {
 }
 
 body.dark-mode .heatmap-cell {
-    border-color: #30363d;
+    border-color: #4b5563;
+}
+
+body.dark-mode .heatmap-cell:not([class*="level"]) {
+    background: #1e2433;
 }
 
 body.dark-mode .heatmap-legend-wrapper {
