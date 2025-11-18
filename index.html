@@ -10,15 +10,20 @@
 </head>
 
 <body>
-    <header class="page-header">
-        <button id="language-toggle" type="button" aria-pressed="false">
-            EN
-        </button>
-    </header>
     <main>
         <div class="reading-layout">
-            <div class="column-card heatmap-column">
-                <div id="reading-heatmap"></div>
+            <div class="heatmap-wrapper">
+                <div class="heatmap-controls">
+                    <button class="control-button" id="theme-toggle" type="button" aria-pressed="false">
+                        Dark Mode
+                    </button>
+                    <button class="control-button language-toggle" id="language-toggle" type="button" aria-pressed="false">
+                        EN
+                    </button>
+                </div>
+                <div class="column-card heatmap-column">
+                    <div id="reading-heatmap"></div>
+                </div>
             </div>
             <section class="column-card books-column" id="past-books"></section>
         </div>

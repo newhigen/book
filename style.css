@@ -41,13 +41,14 @@ body {
 }
 
 .heatmap-wrapper {
-    flex: 1 1 360px;
-    min-width: 300px;
-    max-width: 420px;
+    flex: 1 1 320px;
+    min-width: 260px;
+    max-width: 360px;
 }
 
 .heatmap-controls {
     display: flex;
+    justify-content: space-between;
     gap: 8px;
     margin-bottom: 12px;
 }
@@ -57,10 +58,27 @@ body {
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
 }
 
+.heatmap-controls .language-toggle {
+    flex: 0 0 auto;
+    box-shadow: none;
+    padding: 4px 12px;
+    font-weight: 500;
+}
+
+.language-toggle[aria-pressed="true"] {
+    background: #ffffff;
+    color: #1f2328;
+    border-color: #d0d7de;
+}
+
+.language-toggle:hover {
+    background: #f3f4f6;
+}
+
 .column-card {
-    flex: 1 1 360px;
-    min-width: 300px;
-    max-width: 420px;
+    flex: 1 1 320px;
+    min-width: 260px;
+    max-width: 360px;
     background: #ffffff;
     border: 1px solid #e1e4e8;
     border-radius: 12px;
@@ -215,9 +233,9 @@ body {
 .heatmap-legend-square.level-4 { background: #0f4da8; }
 
 .books-column {
-    flex: 1 1 360px;
-    min-width: 300px;
-    max-width: 420px;
+    flex: 1 1 320px;
+    min-width: 260px;
+    max-width: 360px;
 }
 
 .books-column h2 {
@@ -368,6 +386,13 @@ body.dark-mode .control-button[aria-pressed="true"] {
     background: #e6edf3;
     color: #1f2328;
     border-color: #e6edf3;
+}
+
+body.dark-mode .language-toggle,
+body.dark-mode .language-toggle[aria-pressed="true"] {
+    background: #ffffff;
+    color: #1f2328;
+    border-color: #d0d7de;
 }
 
 body.dark-mode .heatmap-header,
