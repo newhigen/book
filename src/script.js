@@ -8,6 +8,7 @@ const dom = {
 const MONTHS_PER_YEAR = 12;
 const MONTH_LABELS_EN = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 const LANGUAGE_EMOJI = { ko: '🇰🇷', en: '🇺🇸' };
+const DATA_FILES = ['books.csv', 'books.csv.example'];
 
 const TEXT = {
     ko: {
@@ -111,15 +112,20 @@ function updateLanguageToggleUI() {
 }
 
 async function loadBooks() {
-    try {
-        const csv = await fetch('books.csv').then(res => res.text());
-        state.books = parseCSV(csv).sort(sortBooksDesc);
-        return true;
-    } catch (error) {
-        console.error(t('loadError'), error);
-        dom.heatmap.textContent = t('loadError');
-        return false;
+    for (const file of DATA_FILES) {
+        try {
+            const response = await fetch(file);
+            if (!response.ok) continue;
+            const csv = await response.text();
+            state.books = parseCSV(csv).sort(sortBooksDesc);
+            return true;
+        } catch {
+            // try next file
+        }
     }
+    dom.heatmap.textContent =
+        '데이터 파일을 찾지 못했어요. books.csv 또는 books.csv.example을 확인해주세요.';
+    return false;
 }
 
 function parseCSV(text) {
