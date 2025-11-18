@@ -33,7 +33,7 @@ const TEXT = {
         rereadBadge: count => `${count}회차`,
         yearTotal: count => `${count}`,
         legendLabels: ['1', '2', '3', '4+'],
-        toggleLabel: 'EN',
+        toggleLabel: 'English',
         toggleAriaLabel: '영어 모드로 전환',
         tooltipBullet: '•'
     },
@@ -53,7 +53,7 @@ const TEXT = {
         rereadBadge: count => `${count}x read`,
         yearTotal: count => `${count}`,
         legendLabels: ['1', '2', '3', '4+'],
-        toggleLabel: 'KO',
+        toggleLabel: '한국어',
         toggleAriaLabel: 'Switch to Korean',
         tooltipBullet: '•'
     }

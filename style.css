@@ -34,9 +34,9 @@ body {
 }
 
 #language-toggle[aria-pressed="true"] {
-    background: #1f2328;
-    color: #ffffff;
-    border-color: #1f2328;
+    background: #ffffff;
+    color: #1f2328;
+    border: 1px solid #d0d7de;
 }
 
 h1 {
