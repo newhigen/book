@@ -51,11 +51,11 @@ const TEXT = {
 const THEME_STORAGE_KEY = 'book-tracker-theme';
 const THEME_COPY = {
     light: {
-        icon: '🌙',
+        icon: '☀️',
         aria: 'Switch to dark mode'
     },
     dark: {
-        icon: '☀️',
+        icon: '🌙',
         aria: 'Switch to light mode'
     }
 };
@@ -361,8 +361,8 @@ function showBookList(cell, books, year, monthLabel) {
         <div class="tooltip-header">${headerText}</div>
         <div class="tooltip-content">
             ${books
-                .map(book => `<div class="tooltip-book">${bullet} ${getLocalizedTitle(book)}</div>`)
-                .join('')}
+            .map(book => `<div class="tooltip-book">${bullet} ${getLocalizedTitle(book)}</div>`)
+            .join('')}
         </div>
     `;
 
