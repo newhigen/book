@@ -1,6 +1,6 @@
 # Books Read
 
-읽은 책 목록과 GitHub contribution graph 형태의 독서 히트맵을 보여주는 사이트입니다.  
+읽은 책 목록과 GitHub contribution graph 형태의 독서 히트맵을 보여주는 사이트입니다.
 
 `books.csv`만 수정하면 히트맵과 목록이 자동 생성됩니다.
 
@@ -12,6 +12,6 @@
 
 ## GitHub Pages로 호스팅
 - 이 repo를 public repo로 가져옵니다 (예: fork).
-- GitHub → Settings → Pages  
-  - **Source:** Deploy from a branch  
+- GitHub → Settings → Pages
+  - **Source:** Deploy from a branch
   - **Branch:** main
