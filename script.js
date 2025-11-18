@@ -7,6 +7,7 @@ const dom = {
 
 const MONTHS_PER_YEAR = 12;
 const MONTH_LABELS_EN = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+const LANGUAGE_EMOJI = { ko: '🇰🇷', en: '🇺🇸' };
 
 const TEXT = {
     ko: {
@@ -23,8 +24,8 @@ const TEXT = {
         rereadBadge: count => `${count}회차`,
         yearTotal: count => `${count}`,
         legendLabels: ['1', '2', '3', '4+'],
-        toggleLabel: '한국어',
-        toggleAriaLabel: 'Switch language to Korean',
+        toggleLabel: 'English',
+        toggleAriaLabel: '영어로 전환',
         tooltipBullet: '•'
     },
     en: {
@@ -41,8 +42,8 @@ const TEXT = {
         rereadBadge: count => `${count}x read`,
         yearTotal: count => `${count}`,
         legendLabels: ['1', '2', '3', '4+'],
-        toggleLabel: 'English',
-        toggleAriaLabel: 'Switch language to English',
+        toggleLabel: '한국어',
+        toggleAriaLabel: 'Switch to Korean',
         tooltipBullet: '•'
     }
 };
@@ -50,11 +51,11 @@ const TEXT = {
 const THEME_STORAGE_KEY = 'book-tracker-theme';
 const THEME_COPY = {
     light: {
-        label: 'Dark Mode',
+        icon: '🌙',
         aria: 'Switch to dark mode'
     },
     dark: {
-        label: 'Light Mode',
+        icon: '☀️',
         aria: 'Switch to light mode'
     }
 };
@@ -96,7 +97,7 @@ function initLanguageToggle() {
 
 function updateLanguageToggleUI() {
     if (!dom.languageToggle) return;
-    dom.languageToggle.textContent = t('toggleLabel');
+    dom.languageToggle.textContent = LANGUAGE_EMOJI[state.language];
     dom.languageToggle.setAttribute('aria-label', t('toggleAriaLabel'));
     dom.languageToggle.setAttribute('aria-pressed', state.language === 'en');
     document.documentElement.lang = state.language;
@@ -444,7 +445,7 @@ function applyTheme() {
 function updateThemeToggleUI() {
     if (!dom.themeToggle) return;
     const copy = state.theme === 'dark' ? THEME_COPY.dark : THEME_COPY.light;
-    dom.themeToggle.textContent = copy.label;
+    dom.themeToggle.textContent = copy.icon;
     dom.themeToggle.setAttribute('aria-label', copy.aria);
     dom.themeToggle.setAttribute('aria-pressed', state.theme === 'dark');
 }

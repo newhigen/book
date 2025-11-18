@@ -14,16 +14,21 @@ body {
     border: 1px solid #d0d7de;
     background: #ffffff;
     color: #1f2328;
-    padding: 6px 14px;
-    border-radius: 999px;
-    font-size: 12px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    font-size: 18px;
     font-weight: 600;
     cursor: pointer;
-    transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
 }
 
 .control-button:hover {
     background: #f3f4f6;
+    transform: translateY(-1px);
 }
 
 .control-button[aria-pressed="true"] {
@@ -48,21 +53,17 @@ body {
 
 .heatmap-controls {
     display: flex;
-    justify-content: space-between;
-    gap: 8px;
+    justify-content: flex-end;
+    gap: 10px;
     margin-bottom: 12px;
 }
 
 .heatmap-controls .control-button {
-    flex: 1;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
 }
 
-.heatmap-controls .language-toggle {
-    flex: 0 0 auto;
+.language-toggle {
     box-shadow: none;
-    padding: 4px 12px;
-    font-weight: 500;
 }
 
 .language-toggle[aria-pressed="true"] {
@@ -359,10 +360,11 @@ body {
 
     .heatmap-controls {
         flex-direction: column;
+        align-items: flex-end;
     }
 
     .heatmap-controls .control-button {
-        width: 100%;
+        width: 40px;
     }
 }
 
