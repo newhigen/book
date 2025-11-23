@@ -277,7 +277,7 @@ body {
 }
 
 .review-container {
-    max-width: 720px;
+    max-width: 640px;
     margin: 0 auto;
     background: #ffffff;
     border: 1px solid #e1e4e8;
@@ -286,6 +286,7 @@ body {
     box-sizing: border-box;
     position: relative;
 }
+d
 
 .review-topbar {
     display: flex;
@@ -906,26 +907,14 @@ body.dark-mode .review-content a:hover {
         font-size: 8px;
     }
 
-    .review-content p {
-        font-size: 11px;
-    }
-
-    .review-content ul {
-        font-size: 11px;
-    }
-
-    .review-content blockquote {
-        font-size: 11px;
-    }
-
     .review-content ul,
     .review-content ol {
-        font-size: 11px;
+        font-size: 10px;
     }
 
     .review-content ul li,
     .review-content ol li {
-        font-size: inherit;
+        font-size: 10px;
     }
 
     .review-content ul ul,
@@ -944,6 +933,14 @@ body.dark-mode .review-content a:hover {
     .review-content ol ol ul,
     .review-content ol ol ol {
         font-size: 9px;
+    }
+
+    .review-content p {
+        font-size: 10px;
+    }
+
+    .review-content blockquote {
+        font-size: 10px;
     }
 
     .review-content img {

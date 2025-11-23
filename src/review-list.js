@@ -1,13 +1,4 @@
-import {
-    parseFrontMatter,
-    deriveTitleFromFilename,
-    deriveDateFromFilename,
-    derivePermalinkFromFilename,
-    formatRelativeDate,
-    extractMarkdownLinks,
-    createEl,
-    initTheme
-} from './utils.js';
+import { formatRelativeDate, createEl, initTheme } from './utils.js';
 
 document.addEventListener('DOMContentLoaded', initReviewsList);
 
@@ -21,42 +12,14 @@ async function initReviewsList() {
 }
 
 async function loadReviews() {
-    const files = await discoverReviewFiles();
-    if (!files.length) return [];
-    const metadata = await Promise.all(files.map(fetchReviewMetadata));
-    return metadata.filter(Boolean).sort((a, b) => new Date(b.date) - new Date(a.date));
-}
-
-async function discoverReviewFiles() {
-    try {
-        const response = await fetch('reviews/');
-        if (!response.ok) return [];
-        const html = await response.text();
-        return extractMarkdownLinks(html);
-    } catch {
-        return [];
-    }
-}
-
-async function fetchReviewMetadata(filename) {
-    if (!filename) return null;
-    try {
-        const response = await fetch(`reviews/${encodeURIComponent(filename)}`);
-        if (!response.ok) return null;
-        const text = await response.text();
-        const frontmatter = parseFrontMatter(text);
-        const title = frontmatter.title || deriveTitleFromFilename(filename);
-        const date = frontmatter.date || deriveDateFromFilename(filename);
-        const permalink = frontmatter.permalink || derivePermalinkFromFilename(filename);
-        if (!title || !date || !permalink) return null;
-        return {
-            title,
-            date,
-            url: `review-detail.html?file=${encodeURIComponent(filename)}`
-        };
-    } catch {
-        return null;
-    }
+    const reviews = await fetchReviewsIndex();
+    return reviews
+        .filter(Boolean)
+        .map(r => ({
+            ...r,
+            url: r.permalink || r.url
+        }))
+        .sort((a, b) => new Date(b.date) - new Date(a.date));
 }
 
 function renderList(container, reviews) {
@@ -91,4 +54,12 @@ function renderList(container, reviews) {
     });
 
     container.appendChild(list);
+}
+
+async function fetchReviewsIndex() {
+    return getReviewsData();
+}
+
+function getReviewsData() {
+    return Array.isArray(window.REVIEWS) ? window.REVIEWS : [];
 }

@@ -1,10 +1,5 @@
 import {
-    parseFrontMatter,
-    deriveTitleFromFilename,
-    deriveDateFromFilename,
-    derivePermalinkFromFilename,
     formatRelativeDate,
-    extractMarkdownLinks,
     createEl,
     initTheme
 } from './utils.js';
@@ -473,17 +468,16 @@ function updateWithPreservedHeight(element, updater) {
 /* Review Logic */
 
 async function loadReviews() {
-    const files = await discoverReviewFiles();
-    if (!files.length) {
-        state.reviews = [];
-        state.reviewLookup = new Map();
-        return false;
-    }
-
-    const metadata = await Promise.all(files.map(fetchReviewMetadata));
-    state.reviews = metadata.filter(Boolean).sort((a, b) => new Date(b.date) - new Date(a.date));
+    const reviews = getReviewsData();
+    state.reviews = reviews
+        .filter(Boolean)
+        .map(r => ({
+            ...r,
+            url: r.permalink || r.url
+        }))
+        .sort((a, b) => new Date(b.date) - new Date(a.date));
     buildReviewLookup(state.reviews);
-    return true;
+    return state.reviews.length > 0;
 }
 
 function findReviewForBook(book) {
@@ -506,43 +500,6 @@ function buildReviewLookup(reviews) {
         const normalizedTitle = normalizeText(review.title).toLowerCase();
         if (normalizedTitle) state.reviewLookup.set(normalizedTitle, review);
     });
-}
-
-async function discoverReviewFiles() {
-    try {
-        const response = await fetch('reviews/');
-        if (!response.ok) return [];
-        const html = await response.text();
-        const files = extractMarkdownLinks(html);
-        return Array.from(new Set(files));
-    } catch {
-        return [];
-    }
-}
-
-async function fetchReviewMetadata(filename) {
-    if (!filename) return null;
-    try {
-        const response = await fetch(`reviews/${encodeURIComponent(filename)}`);
-        if (!response.ok) return null;
-        const text = await response.text();
-        const frontmatter = parseFrontMatter(text);
-        const permalink = frontmatter.permalink || derivePermalinkFromFilename(filename);
-        const date = frontmatter.date || deriveDateFromFilename(filename);
-        const title = frontmatter.title || '';
-        if (!title || !permalink || !date) return null;
-        return {
-            title,
-            author: frontmatter.author || '',
-            date,
-            permalink,
-            filename,
-            url: `review-detail.html?file=${encodeURIComponent(filename)}`,
-            publicationYear: frontmatter.publication_year ?? frontmatter.publicationYear
-        };
-    } catch {
-        return null;
-    }
 }
 
 function renderReviews() {
@@ -580,4 +537,12 @@ function renderReviews() {
         });
         container.appendChild(list);
     });
+}
+
+async function fetchReviewsIndex() {
+    return getReviewsData();
+}
+
+function getReviewsData() {
+    return Array.isArray(window.REVIEWS) ? window.REVIEWS : [];
 }

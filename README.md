@@ -28,11 +28,11 @@
 
 ## 서평 작성
 
-- `reviews/날짜_슬러그.md` 형태로 파일을 추가합니다. 예시:
+- `_posts/YYYY-MM-DD-slug.md` 형태로 파일을 추가합니다. 예시:
 
 ```
 ---
-permalink: slug
+permalink: /slug
 date: 2025-09-20
 title: 제목
 author: 저자명
@@ -42,4 +42,11 @@ publication_year: 2024
 본문을 Markdown으로 작성하세요. 중첩 리스트, 코드 블록, 이미지(`assets/` 경로) 등을 지원합니다.
 ```
 
-- 목록: `review-list.html`에서 서평 목록을 확인하고, 개별 파일은 `review-detail.html?file=파일명.md`로 열립니다. permalinks는 배포 환경에 맞게 설정하세요.
+- 목록: `review-list.html`에서 서평 목록을 확인하고, 개별 파일은 퍼머링크(`/slug`)로 이동합니다. 서평 인덱스는 `src/reviews-data.js`(글로벌 `window.REVIEWS`)에 선언된 배열을 사용합니다.
+
+## 로컬 개발 (bundle)
+
+1. `bundle install`
+2. `bundle exec jekyll serve --future`
+
+`http://localhost:4000`에서 퍼머링크(`/slug`)까지 확인할 수 있습니다.
