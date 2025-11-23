@@ -62,7 +62,8 @@ function renderHeader(meta, filename) {
     setText('review-date', date);
     const metaParts = [];
     if (meta.author) metaParts.push(meta.author);
-    if (meta.publication_year) metaParts.push(`출간 ${meta.publication_year}`);
+    const publicationYear = meta.publication_year || meta.publicationYear;
+    if (publicationYear) metaParts.push(publicationYear);
     if (metaParts.length) setText('review-meta', metaParts.join(' · '));
 }
 
