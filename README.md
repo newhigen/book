@@ -1,7 +1,7 @@
 # Books Site Generator
 
 <p align="center">
-<img width="200" src="./assets/screenshot_251118.png" alt="사이트 미리보기" style="border-radius: 4px; border: 1px solid #ddd;"/>
+<img width="400" src="./assets/screenshot_251123.png" alt="사이트 미리보기" style="border-radius: 4px; border: 1px solid #ddd;"/>
 <p/>
 
 독서 기록만 `books.csv`에 작성하면 자동으로 리스트와 GitHub-style 히트맵을 만들어 주는 정적 사이트 템플릿입니다.
