@@ -185,7 +185,11 @@ function markdownToHtml(markdown) {
 }
 
 function inlineMarkdown(text) {
-    let result = escapeHtml(text);
+    let result = text;
+
+    // Custom escaping: /< -> <, /> -> > (Keeping this as per original request, but images don't need it now)
+    result = result.replace(/\/&lt;/g, '<').replace(/\/&gt;/g, '>');
+
     result = result.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
     result = result.replace(/__(.+?)__/g, '<strong>$1</strong>');
     result = result.replace(/\*(.+?)\*/g, '<em>$1</em>');

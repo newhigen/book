@@ -77,7 +77,7 @@ publication_year: 2018
 
 ### A, B, C 작업 #2-1
 
-<img src="../assets/images/grow-together/abc작업.png" alt="abc작업">
+<img src="./assets/grow-together/abc작업.png" alt="abc작업" width="200">
 
 
 - 맨 아래 make it work, right, fast는 책 내용은 아니고 코딩 피라미드가 연상되서 기입
@@ -90,7 +90,7 @@ publication_year: 2018
 - 더하기 사고 vs 곱하기 사고
 - 부분의 합 < 전체
 
-![조직](../assets/images/grow-together/조직.png)
+![조직](./assets/grow-together/조직.png)
 
 - 직전 결과물로 다음 결과물 개선
     - 부트스트레핑
@@ -100,7 +100,7 @@ Q. 어떻게
 1. 더하기 아닌 곱하기?
 2. 곱하기 비율 ↑? (≈ 이율 자체 ↑)
 
-힌트\) ☑
+힌트) ☑
 
 1. 이미 있는 지식 활용
     - 서로 연결 _ 제텔카스텐[^6] _ 과 충돌 _ 차이/비교[^3]
@@ -114,7 +114,7 @@ Q. 어떻게
 
 ## 학습 프레임과 실행 프레임 #3
 
-![image](../assets/images/grow-together/학습-실행-프레임.png)
+![image](./assets/grow-together/학습-실행-프레임.png)
 
 ## 직업 학습 난이도 ↑ ⇒ 생존 ↑ #4
 
@@ -146,19 +146,19 @@ Q. 어떻게
 
 - 적절한 i+1
 
-![image](../assets/images/grow-together/난이도-실력-그래프.png)
+![image](./assets/grow-together/난이도-실력-그래프.png)
 
 - ☑ 내 상태를 의식하기
 
 몰입 밖(불안함 OR 지루함)에서 안으로 들어가는 방법 4가지 = 제자리 걸음 탈출
 
-![image](../assets/images/grow-together/제자리걸음-탈출방법.png)
+![image](./assets/grow-together/제자리걸음-탈출방법.png)
 
 ### 지루함(너무 쉬울 때)에서 시작 #8-1
 
-a1\) 실력 낮추기 ≈ 모래주머니 (ex. 도구 안/덜 쓰고)
+a1) 실력 낮추기 ≈ 모래주머니 (ex. 도구 안/덜 쓰고)
 
-a2\) 난이도 높이기: 요구 수준 스스로 높이기
+a2) 난이도 높이기: 요구 수준 스스로 높이기
 
 - 남들보다 효과적/효율적으로
     - ex. 나만의 도구/환경 구축 _ 점진적으로 구축 #2-2
@@ -166,13 +166,13 @@ a2\) 난이도 높이기: 요구 수준 스스로 높이기
 
 ### 불안함(너무 어려울 때)에서 시작 #8-2
 
-b2\) 실력 높이기
+b2) 실력 높이기
 
 1. 사회적 - 나보다 뛰어난 전문가 도움
 2. 도구적 - 다른 도구의 도움
 3. 내관전 - 비슷한 경험 활용 ⇒ 자기효용감 ↑
 
-b1\) 난이도 낮추기: 아기 버전[^2] 먼저 → 정식 버전
+b1) 난이도 낮추기: 아기 버전[^2] 먼저 → 정식 버전
 
 - 2번의 학습 효과 = 복리 이익
 - 쉬운 것 먼저 → 어려운 것 먼저 ⇒ 결함 수 ↓
@@ -242,7 +242,7 @@ Q. 관리?
 
 ## S/W 관리 개선 순위 #13
 
-![image](../assets/images/grow-together/소프트웨어-관리-개선순위.png)
+![image](./assets/grow-together/소프트웨어-관리-개선순위.png)
 
 but (가장 쉬운 것부터) 반대 순서로 개선하려함. 조엘 테스트.
 
@@ -310,17 +310,17 @@ S/W dev 관리 3가지 증력
 
 해당 영역 지식 없어도 OK!
 
-![image](../assets/images/grow-together/인지적작업분석-코칭.png)
+![image](./assets/grow-together/인지적작업분석-코칭.png)
 
 ## 하향식 접근의 함정 #18
 
-![image](../assets/images/grow-together/하향식접근-함정.png)
+![image](./assets/grow-together/하향식접근-함정.png)
 
-![image](../assets/images/grow-together/전문가-자기수정.png)
+![image](./assets/grow-together/전문가-자기수정.png)
 
 전문가일 수록 자기 수정 횟수 UP
 
-![image](../assets/images/grow-together/전문가팀-실패이유.png)
+![image](./assets/grow-together/전문가팀-실패이유.png)
 
 삼투압적 의사소통 - '협력' _ 이동 (1원칙 7가지 중)[^2]
 
@@ -328,7 +328,7 @@ S/W dev 관리 3가지 증력
 
 ## 전문가 팀이 실패하는 이유 #19
 
-![image](../assets/images/grow-together/탁월한팀-구글연구.png)
+![image](./assets/grow-together/탁월한팀-구글연구.png)
 
 전문가
 
