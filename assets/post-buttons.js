@@ -7,7 +7,7 @@
       <a class="post-button" href="{{ '/' | relative_url }}" aria-label="홈으로">
         <span aria-hidden="true">🏠</span>
       </a>
-      <a class="post-button" href="{{ '/reviews' | relative_url }}" aria-label="서평 목록으로">
+      <a class="post-button" href="{{ '/books/reviews' | relative_url }}" aria-label="서평 목록으로">
         <span aria-hidden="true">📚</span>
       </a>
     `;
