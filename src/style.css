@@ -419,6 +419,17 @@ body {
     border-radius: 4px;
 }
 
+.review-content a {
+    color: #0f4da8;
+    text-decoration-color: rgba(15, 77, 168, 0.35);
+    text-decoration-thickness: 2px;
+}
+
+.review-content a:hover {
+    color: #0c3e89;
+    text-decoration-color: rgba(12, 62, 137, 0.5);
+}
+
 .review-footer {
     margin-top: 20px;
     text-align: right;
@@ -723,6 +734,16 @@ body.dark-mode .review-divider {
 
 body.dark-mode .book-title {
     color: #e6edf3;
+}
+
+body.dark-mode .review-content a {
+    color: #8fb6ff;
+    text-decoration-color: rgba(143, 182, 255, 0.5);
+}
+
+body.dark-mode .review-content a:hover {
+    color: #b4ceff;
+    text-decoration-color: rgba(180, 206, 255, 0.7);
 }
 
 /* Reviews Section */
