@@ -115,6 +115,19 @@ function renderContent(markdown) {
 
 function markdownToHtml(markdown) {
     const lines = markdown.split('\n');
+    const footnotes = {};
+    const cleanLines = [];
+
+    // Pass 1: Extract footnote definitions
+    lines.forEach(line => {
+        const match = line.match(/^\[\^(.+?)\]:\s+(.*)$/);
+        if (match) {
+            footnotes[match[1]] = match[2];
+        } else {
+            cleanLines.push(line);
+        }
+    });
+
     const html = [];
     let inCode = false;
     let codeLines = [];
@@ -134,7 +147,7 @@ function markdownToHtml(markdown) {
         listBuffer = [];
     };
 
-    lines.forEach(rawLine => {
+    cleanLines.forEach(rawLine => {
         const line = rawLine.replace(/\r$/, '');
 
         if (/^```/.test(line)) {
@@ -181,14 +194,37 @@ function markdownToHtml(markdown) {
 
     flushList();
     flushCode();
+
+    // Append Footnotes
+    if (Object.keys(footnotes).length > 0) {
+        html.push('<div class="footnotes"><hr><ol>');
+        Object.keys(footnotes).forEach(key => {
+            const def = inlineMarkdown(footnotes[key]);
+            html.push(`<li id="fn-${key}">${def} <a href="#ref-${key}">↩</a></li>`);
+        });
+        html.push('</ol></div>');
+    }
+
     return html.join('\n');
 }
 
 function inlineMarkdown(text) {
     let result = text;
 
-    // Custom escaping: /< -> <, /> -> > (Keeping this as per original request, but images don't need it now)
+    // Allow raw <img> tags: unescape them
+    result = result.replace(/&lt;img (.*?)&gt;/g, '<img $1>');
+
+    // Custom escaping: /< -> <, /> -> >
     result = result.replace(/\/&lt;/g, '<').replace(/\/&gt;/g, '>');
+
+    // Images: ![alt](url)
+    result = result.replace(/!\[(.*?)\]\((.*?)\)/g, '<img src="$2" alt="$1">');
+
+    // Footnote references: [^n]
+    result = result.replace(/\[\^(.+?)\]/g, '<sup><a href="#fn-$1" id="ref-$1">$1</a></sup>');
+
+    // Links: [text](url)
+    result = result.replace(/\[(.*?)\]\((.*?)\)/g, '<a href="$2">$1</a>');
 
     result = result.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
     result = result.replace(/__(.+?)__/g, '<strong>$1</strong>');
