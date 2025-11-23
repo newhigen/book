@@ -34,9 +34,9 @@ const TEXT = {
         toggleLabel: 'English',
         toggleAriaLabel: '영어로 전환',
         tooltipBullet: '•',
-        reviewsTitle: '최근 서평',
+        reviewsTitle: '최근 후기',
         noReviews: '아직 작성된 서평이 없어요.',
-        reviewsListAria: '서평 목록 페이지로 이동'
+        reviewsListAria: '후기 목록 페이지로 이동'
     },
     en: {
         heatmapTitle: 'Reading Heatmap',
@@ -55,9 +55,9 @@ const TEXT = {
         toggleLabel: '한국어',
         toggleAriaLabel: 'Switch to Korean',
         tooltipBullet: '•',
-        reviewsTitle: 'Recent Reviews',
-        noReviews: 'No reviews yet.',
-        reviewsListAria: 'Go to reviews list page'
+        reviewsTitle: 'Recent Posts',
+        noReviews: 'No posts yet.',
+        reviewsListAria: 'Go to posts list page'
     }
 };
 
@@ -510,7 +510,7 @@ function renderReviews() {
         container.innerHTML = '';
         const header = createEl('div', 'reviews-header');
         const headingLink = createEl('a', 'reviews-title-link', t('reviewsTitle'));
-        headingLink.href = '/reviews';
+        headingLink.href = '/books/reviews';
         const heading = createEl('h2');
         heading.appendChild(headingLink);
         header.appendChild(heading);
