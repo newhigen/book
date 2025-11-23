@@ -670,8 +670,18 @@ function renderReviews() {
 
     updateWithPreservedHeight(container, () => {
         container.innerHTML = '';
-        const heading = createEl('h2', null, t('reviewsTitle'));
-        container.appendChild(heading);
+        const header = createEl('div', 'reviews-header');
+        const headingLink = createEl('a', 'reviews-title-link', t('reviewsTitle'));
+        headingLink.href = 'reviews.html';
+        const heading = createEl('h2');
+        heading.appendChild(headingLink);
+        header.appendChild(heading);
+
+        const listButton = createEl('a', 'reviews-button', '→');
+        listButton.href = 'reviews.html';
+        listButton.setAttribute('aria-label', t('reviewsListAria'));
+        header.appendChild(listButton);
+        container.appendChild(header);
 
         const reviewsToShow = (state.reviews || []).slice(0, 3);
 
@@ -699,10 +709,12 @@ function renderReviews() {
 // Update TEXT object with review strings
 Object.assign(TEXT.ko, {
     reviewsTitle: '최근 서평',
-    noReviews: '아직 작성된 서평이 없어요.'
+    noReviews: '아직 작성된 서평이 없어요.',
+    reviewsListAria: '서평 목록 페이지로 이동'
 });
 
 Object.assign(TEXT.en, {
     reviewsTitle: 'Recent Reviews',
-    noReviews: 'No reviews yet.'
+    noReviews: 'No reviews yet.',
+    reviewsListAria: 'Go to reviews list page'
 });
