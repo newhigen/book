@@ -273,7 +273,7 @@ body {
 }
 
 .review-page {
-    padding: 16px;
+    padding: 24px;
 }
 
 .review-container {
@@ -821,8 +821,17 @@ body.dark-mode .book-title {
     white-space: nowrap;
 }
 
+/* Reviews list page */
+.reviews-page {
+    padding: 24px;
+}
+
 @media (max-width: 480px) {
     .review-page {
+        padding: 6px;
+    }
+
+    .reviews-page {
         padding: 6px;
     }
 
@@ -893,11 +902,10 @@ body.dark-mode .book-title {
     .reviews-list-container {
         padding: 14px;
     }
-}
 
-/* Reviews list page */
-.reviews-page {
-    padding: 16px;
+    .reviews-page {
+        padding: 6px;
+    }
 }
 
 .reviews-list-container {
