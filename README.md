@@ -42,7 +42,7 @@ publication_year: 2024
 본문을 Markdown으로 작성하세요. 중첩 리스트, 코드 블록, 이미지(`assets/` 경로) 등을 지원합니다.
 ```
 
-- 목록: `review-list.html`에서 서평 목록을 확인하고, 개별 파일은 퍼머링크(`/slug`)로 이동합니다. 서평 인덱스는 `src/reviews-data.js`(글로벌 `window.REVIEWS`)에 선언된 배열을 사용합니다.
+- 목록: `/reviews`에서 서평 목록을 확인하고, 개별 파일은 퍼머링크(`/slug`)로 이동합니다. 서평 인덱스는 `src/reviews-data.js`(글로벌 `window.REVIEWS`)에 선언된 배열을 사용합니다.
 
 ## 로컬 개발 (bundle)
 

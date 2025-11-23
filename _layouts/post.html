@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ page.title }}</title>
+  <link rel="stylesheet" href="{{ '/src/style.css' | relative_url }}">
+  <script type="module">
+    import { initTheme } from "{{ '/src/utils.js' | relative_url }}";
+    document.addEventListener('DOMContentLoaded', () => {
+      initTheme('theme-toggle');
+    });
+  </script>
+</head>
+
+<body class="review-page">
+  <main class="review-container">
+    <div class="review-topbar">
+      <div class="review-nav-buttons">
+        <a class="nav-button list-button" href="{{ '/reviews' | relative_url }}" aria-label="서평 목록으로">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <line x1="8" y1="6" x2="21" y2="6"></line>
+            <line x1="8" y1="12" x2="21" y2="12"></line>
+            <line x1="8" y1="18" x2="21" y2="18"></line>
+            <line x1="3" y1="6" x2="3.01" y2="6"></line>
+            <line x1="3" y1="12" x2="3.01" y2="12"></line>
+            <line x1="3" y1="18" x2="3.01" y2="18"></line>
+          </svg>
+        </a>
+        <button id="theme-toggle" class="nav-button theme-toggle" aria-label="Switch to dark mode">☀️</button>
+        <a class="nav-button home-button" href="{{ '/' | relative_url }}" aria-label="홈으로">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+            <polyline points="9 22 9 12 15 12 15 22"></polyline>
+          </svg>
+        </a>
+      </div>
+    </div>
+
+    <div class="review-header">
+      <h1>{{ page.title }}</h1>
+      <p class="review-meta">
+        {{ page.author }}
+        {%- assign pub_year = page.publication_year | default: page.publicationYear -%}
+        {%- if pub_year -%}
+        · {{ pub_year }}
+        {%- endif -%}
+      </p>
+    </div>
+    <hr class="review-divider">
+
+    <article class="review-content markdown-body">
+      {{ content }}
+    </article>
+  </main>
+</body>
+
+</html>

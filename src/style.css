@@ -277,7 +277,7 @@ body {
 }
 
 .review-container {
-    max-width: 640px;
+    max-width: 720px;
     margin: 0 auto;
     background: #ffffff;
     border: 1px solid #e1e4e8;
@@ -286,9 +286,8 @@ body {
     box-sizing: border-box;
     position: relative;
 }
-d
 
-.review-topbar {
+d .review-topbar {
     display: flex;
     justify-content: flex-end;
     margin-bottom: 24px;
@@ -297,13 +296,13 @@ d
 .review-nav-buttons,
 .reviews-nav-buttons {
     display: flex;
-    gap: 12px;
+    gap: 8px;
     justify-content: flex-start;
 }
 
 .nav-button {
-    width: 36px;
-    height: 36px;
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
     border: 1px solid #d0d7de;
     display: inline-flex;
@@ -312,7 +311,7 @@ d
     color: #1f2328;
     text-decoration: none;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
-    transition: background 0.2s ease, transform 0.2s ease;
+    transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
     background: transparent;
     padding: 0;
     font-size: 18px;
@@ -324,11 +323,10 @@ d
 
 .nav-button:hover {
     background: #e8eaed;
-    transform: translateY(-1px);
 }
 
 .nav-button:active {
-    transform: translateY(0);
+    transform: none;
 }
 
 .review-header {
@@ -971,6 +969,44 @@ body.dark-mode .review-content a:hover {
     .reviews-page {
         padding: 6px;
     }
+
+    .reviews-list-container {
+        padding-top: 64px;
+    }
+
+    .reviews-list-topbar {
+        top: 12px;
+        right: 12px;
+    }
+
+    .markdown-body {
+        font-size: 11px;
+        line-height: 1.45;
+    }
+
+    .markdown-body h1 {
+        font-size: 18px;
+    }
+
+    .markdown-body h2 {
+        font-size: 16px;
+    }
+
+    .markdown-body h3 {
+        font-size: 14px;
+    }
+
+    .markdown-body h4 {
+        font-size: 12px;
+    }
+
+    .markdown-body h5 {
+        font-size: 10px;
+    }
+
+    .markdown-body h6 {
+        font-size: 9px;
+    }
 }
 
 .reviews-list-container {
@@ -979,15 +1015,19 @@ body.dark-mode .review-content a:hover {
     background: #ffffff;
     border: 1px solid #e1e4e8;
     border-radius: 12px;
-    padding: 20px;
+    padding: 72px 20px 20px;
     box-sizing: border-box;
     position: relative;
 }
 
 .reviews-list-topbar {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    margin: 0;
     display: flex;
     justify-content: flex-end;
-    margin-bottom: 8px;
+    gap: 10px;
 }
 
 .reviews-list-container h1 {
@@ -996,8 +1036,8 @@ body.dark-mode .review-content a:hover {
 }
 
 .reviews-home-button {
-    width: 36px;
-    height: 36px;
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
     background: #f3f4f6;
     border: 1px solid #d0d7de;
@@ -1013,11 +1053,10 @@ body.dark-mode .review-content a:hover {
 
 .reviews-home-button:hover {
     background: #e8eaed;
-    transform: translateY(-1px);
 }
 
 .reviews-home-button:active {
-    transform: translateY(0);
+    transform: none;
 }
 
 .reviews-archive-list {
@@ -1106,4 +1145,28 @@ body.dark-mode .review-title:hover {
 
 body.dark-mode .review-meta {
     color: #8b949e;
+}
+
+/* Jekyll-rendered post layout alignment and container sizing */
+.container-lg,
+.container-md,
+.container {
+    max-width: 680px;
+}
+
+
+
+.review-container {
+    position: relative;
+    padding-top: 72px;
+}
+
+.review-topbar {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    margin: 0;
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
 }

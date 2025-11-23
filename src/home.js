@@ -510,7 +510,7 @@ function renderReviews() {
         container.innerHTML = '';
         const header = createEl('div', 'reviews-header');
         const headingLink = createEl('a', 'reviews-title-link', t('reviewsTitle'));
-        headingLink.href = 'review-list.html';
+        headingLink.href = '/reviews';
         const heading = createEl('h2');
         heading.appendChild(headingLink);
         header.appendChild(heading);

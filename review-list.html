@@ -1,3 +1,7 @@
+---
+layout: null
+permalink: /reviews
+---
 <!DOCTYPE html>
 <html lang="ko">
 
@@ -5,16 +9,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>서평 목록</title>
-    <link rel="stylesheet" href="src/style.css">
+    <link rel="stylesheet" href="{{ '/src/style.css' | relative_url }}">
 </head>
 
 <body class="reviews-page">
-    <script src="src/reviews-data.js"></script>
+    <script src="{{ '/src/reviews-data.js' | relative_url }}"></script>
     <main class="reviews-list-container">
         <div class="reviews-list-topbar">
             <div class="reviews-nav-buttons">
                 <button id="theme-toggle" class="nav-button theme-toggle" aria-label="Switch to dark mode">☀️</button>
-                <a class="nav-button home-button" href="index.html" aria-label="홈으로 돌아가기">
+                <a class="nav-button home-button" href="{{ '/' | relative_url }}" aria-label="홈으로 돌아가기">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
                         <polyline points="9 22 9 12 15 12 15 22"></polyline>
@@ -26,7 +30,7 @@
         <div id="reviews-list" class="reviews-list-body"></div>
     </main>
 
-    <script src="src/review-list.js" type="module" defer></script>
+    <script src="{{ '/src/review-list.js' | relative_url }}" type="module" defer></script>
 </body>
 
 </html>
