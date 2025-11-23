@@ -108,5 +108,5 @@ publication_year: 2022
 <img src="./assets/tuttomondo.jpg" alt="키스 해링 투토몬도" width="200" />
 
 [^1]: [[도서] 모든 것은 예측 가능하다, 2025](https://product.kyobobook.co.kr/detail/S000215101862)
-[^2]: [[책] 디테일의 발견, 2023]({% post_url 2025-09-19-discovery-of-detail %})
-[^3]: [[책] INFJ 의사의 병원 일기, 2025]({% post_url 2025-08-10-infj-doctor %})
+[^2]: [[책] 디테일의 발견, 2023]({% post_url 2025-09-19_discovery-of-detail %})
+[^3]: [[책] INFJ 의사의 병원 일기, 2025]({% post_url 2025-08-10_infj-doctor %})
