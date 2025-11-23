@@ -1,4 +1,6 @@
 future: true
+url: "https://newhigen.github.io"
+baseurl: "/books"
 
 defaults:
   - scope:

@@ -1,10 +1,10 @@
-# Books Site Generator
+# Books & Reviews Site
 
 <p align="center">
 <img width="400" src="./assets/screenshot_251123.png" alt="사이트 미리보기" style="border-radius: 4px; border: 1px solid #ddd;"/>
 <p/>
 
-독서 기록만 `books.csv`에 작성하면 자동으로 리스트와 GitHub-style 히트맵을 만들어 주는 정적 사이트 템플릿입니다.
+독서 기록만 `books.csv`에 작성하면 자동으로 리스트와 GitHub-style 히트맵을 만들어 주는 정적 사이트 템플릿입니다. 책 후기(블로그 형식)도 `_posts`에 Markdown으로 추가할 수 있어, 읽은 책과 후기를 한곳에서 관리합니다.
 언어(🇰🇷/🇺🇸)와 다크 모드(🌙/☀️) 토글을 제공하며, 같은 책을 여러 번 읽으면 최신 기록에 `N회차` 배지가 표시됩니다.
 
 ## 시작하기
@@ -43,5 +43,5 @@ detail: true # 정독 후기면 true, 아니면 생략/false
 본문을 Markdown으로 작성하세요. 중첩 리스트, 코드 블록, 이미지(`assets/` 경로) 등을 지원합니다.
 ```
 
-- 목록: `/books/reviews`에서 후기 목록을 확인하고, 개별 파일은 퍼머링크(`/slug`)로 이동합니다.
+- 목록: `/books/reviews/`에서 후기 목록을 확인하고, 개별 파일은 퍼머링크(`/slug`)로 이동합니다.
 - 후기 데이터는 빌드 시 Jekyll이 `src/reviews-data.js`(전역 `window.REVIEWS`)를 자동 생성합니다.

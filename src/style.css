@@ -277,7 +277,7 @@ body {
 }
 
 .review-container {
-    max-width: 720px;
+    max-width: 640px;
     margin: 0 auto;
     background: #ffffff;
     border: 1px solid #e1e4e8;
@@ -287,16 +287,10 @@ body {
     position: relative;
 }
 
-d .review-topbar {
-    display: flex;
-    justify-content: flex-end;
-    margin-bottom: 24px;
-}
-
 .review-nav-buttons,
 .reviews-nav-buttons {
     display: flex;
-    gap: 8px;
+    gap: 10px;
     justify-content: flex-start;
 }
 
