@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Review</title>
+    <link rel="stylesheet" href="src/style.css">
+</head>
+
+<body class="review-page">
+    <main class="review-container">
+        <article id="review-article" class="review-article">
+            <div class="review-header">
+                <p class="review-date" id="review-date"></p>
+                <h1 id="review-title"></h1>
+                <p class="review-meta" id="review-meta"></p>
+            </div>
+            <div id="review-content" class="review-content"></div>
+        </article>
+        <div id="review-error" class="review-error" aria-live="polite"></div>
+        <p class="review-back"><a href="index.html">← 목록으로 돌아가기</a></p>
+    </main>
+
+    <script src="src/review-page.js" defer></script>
+</body>
+
+</html>

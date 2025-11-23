@@ -272,6 +272,87 @@ body {
     background: #0f4da8;
 }
 
+.review-page {
+    padding: 16px;
+}
+
+.review-container {
+    max-width: 720px;
+    margin: 0 auto;
+    background: #ffffff;
+    border: 1px solid #e1e4e8;
+    border-radius: 12px;
+    padding: 24px;
+    box-sizing: border-box;
+}
+
+.review-header h1 {
+    margin: 8px 0 12px;
+    font-size: 28px;
+}
+
+.review-date {
+    margin: 0;
+    color: #6a737d;
+    font-size: 14px;
+}
+
+.review-meta {
+    margin: 0 0 12px;
+    color: #6a737d;
+    font-size: 14px;
+}
+
+.review-content h1,
+.review-content h2,
+.review-content h3,
+.review-content h4,
+.review-content h5,
+.review-content h6 {
+    margin: 20px 0 8px;
+}
+
+.review-content p {
+    line-height: 1.6;
+    margin: 10px 0;
+}
+
+.review-content blockquote {
+    margin: 12px 0;
+    padding: 12px 16px;
+    border-left: 4px solid #d0d7de;
+    background: #f6f8fa;
+    color: #24292e;
+}
+
+.review-content ul {
+    margin: 10px 0 10px 20px;
+}
+
+.review-content pre {
+    background: #0d1117;
+    color: #c9d1d9;
+    padding: 12px;
+    border-radius: 8px;
+    overflow-x: auto;
+}
+
+.review-content code {
+    background: #f6f8fa;
+    padding: 2px 4px;
+    border-radius: 4px;
+}
+
+.review-error {
+    color: #d73a49;
+    margin-top: 12px;
+    display: none;
+}
+
+.review-back {
+    margin-top: 16px;
+}
+
 .books-column {
     flex: 1 1 360px;
     min-width: 360px;

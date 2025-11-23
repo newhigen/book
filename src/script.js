@@ -67,7 +67,8 @@ const state = {
     heatmapBuckets: new Map(),
     language: 'ko',
     theme: 'light',
-    yearRefs: []
+    yearRefs: [],
+    reviews: []
 };
 
 const normalizeText = value => (value ?? '').trim();
@@ -87,15 +88,12 @@ document.addEventListener('DOMContentLoaded', init);
 async function init() {
     initLanguageToggle();
     initThemeToggle();
-    const [booksLoaded, reviewsLoaded] = await Promise.all([loadBooks(), loadReviews()]);
+    const [booksLoaded] = await Promise.all([loadBooks(), loadReviews()]);
 
     if (booksLoaded) {
         buildDerivedData();
-        renderHeatmap();
-        renderBookColumns();
-    }
-
-    if (reviewsLoaded) {
+        renderAll();
+    } else {
         renderReviews();
     }
 }
@@ -195,6 +193,7 @@ function buildDerivedData() {
 function renderAll() {
     renderHeatmap();
     renderBookColumns();
+    renderReviews();
 }
 
 function renderHeatmap() {
@@ -503,18 +502,102 @@ function safeStorageSet(key, value) {
 
 /* Review Logic */
 
-const REVIEWS_FILE = 'reviews.json';
-
 async function loadReviews() {
-    try {
-        const response = await fetch(REVIEWS_FILE);
-        if (!response.ok) return false;
-        const reviews = await response.json();
-        state.reviews = reviews.sort((a, b) => new Date(b.date) - new Date(a.date));
-        return true;
-    } catch {
+    const files = await discoverReviewFiles();
+    if (!files.length) {
+        state.reviews = [];
         return false;
     }
+
+    const metadata = await Promise.all(files.map(fetchReviewMetadata));
+    state.reviews = metadata
+        .filter(Boolean)
+        .sort((a, b) => new Date(b.date) - new Date(a.date));
+    return true;
+}
+
+async function discoverReviewFiles() {
+    try {
+        const response = await fetch('reviews/');
+        if (!response.ok) return [];
+        const html = await response.text();
+        const files = extractMarkdownLinks(html);
+        return Array.from(new Set(files));
+    } catch {
+        return [];
+    }
+}
+
+function extractMarkdownLinks(html) {
+    const files = [];
+    try {
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(html, 'text/html');
+        doc.querySelectorAll('a[href]').forEach(a => {
+            const href = a.getAttribute('href') || '';
+            if (/\.md$/i.test(href)) files.push(href.split('/').pop());
+        });
+    } catch {
+        // ignore DOM parse issues
+    }
+
+    if (!files.length) {
+        const regex = /href="([^"]+\.md)"/gi;
+        let match;
+        while ((match = regex.exec(html))) {
+            files.push(match[1].split('/').pop());
+        }
+    }
+
+    return files;
+}
+
+async function fetchReviewMetadata(filename) {
+    if (!filename) return null;
+    try {
+        const response = await fetch(`reviews/${encodeURIComponent(filename)}`);
+        if (!response.ok) return null;
+        const text = await response.text();
+        const frontmatter = parseFrontMatter(text);
+        const permalink = frontmatter.permalink || derivePermalinkFromFilename(filename);
+        const date = frontmatter.date || deriveDateFromFilename(filename);
+        const title = frontmatter.title || '';
+        if (!title || !permalink || !date) return null;
+        return {
+            title,
+            author: frontmatter.author || '',
+            date,
+            permalink,
+            url: `review.html?file=${encodeURIComponent(filename)}`,
+            publicationYear: frontmatter.publication_year ?? frontmatter.publicationYear
+        };
+    } catch {
+        return null;
+    }
+}
+
+function parseFrontMatter(text) {
+    const match = text.match(/^---\n([\s\S]*?)\n---/);
+    if (!match) return {};
+    return match[1].split('\n').reduce((acc, line) => {
+        const separatorIndex = line.indexOf(':');
+        if (separatorIndex === -1) return acc;
+        const key = line.slice(0, separatorIndex).trim();
+        if (!key) return acc;
+        const rawValue = line.slice(separatorIndex + 1).trim();
+        const value = rawValue.replace(/^['"]|['"]$/g, '');
+        acc[key] = value;
+        return acc;
+    }, {});
+}
+
+function derivePermalinkFromFilename(filename) {
+    return filename.replace(/\.md$/i, '').split('_').slice(1).join('_') || filename.replace(/\.md$/i, '');
+}
+
+function deriveDateFromFilename(filename) {
+    const token = filename.split('_')[0] || '';
+    return token.replace(/[^0-9-]/g, '');
 }
 
 function renderReviews() {
@@ -536,7 +619,7 @@ function renderReviews() {
             const item = createEl('li', 'review-item');
 
             const link = createEl('a', 'review-title', review.title);
-            link.href = `reviews/${review.permalink}`;
+            link.href = review.url || `reviews/${review.permalink}.md`;
             item.appendChild(link);
 
             const meta = createEl('div', 'review-meta');
@@ -565,5 +648,3 @@ Object.assign(TEXT.en, {
     reviewsTitle: 'Recent Reviews',
     noReviews: 'No reviews yet.'
 });
-
-
