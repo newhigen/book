@@ -90,8 +90,7 @@ function markdownToHtml(markdown) {
     const html = [];
     let inCode = false;
     let codeLines = [];
-    let listBuffer = [];
-    let currentListType = null;
+    let listStack = [];
 
     const flushCode = () => {
         if (!inCode) return;
@@ -100,13 +99,29 @@ function markdownToHtml(markdown) {
         codeLines = [];
     };
 
-    const flushList = () => {
-        if (!listBuffer.length) return;
-        const tag = currentListType === 'ol' ? 'ol' : 'ul';
-        const items = listBuffer.map(item => `<li>${item}</li>`).join('');
-        html.push(`<${tag}>${items}</${tag}>`);
-        listBuffer = [];
-        currentListType = null;
+    const popList = () => {
+        if (!listStack.length) return;
+        const list = listStack.pop();
+        const renderedItems = list.items
+            .map(item => `<li>${item.content}${item.children.join('')}</li>`)
+            .join('');
+        const listHtml = `<${list.type}>${renderedItems}</${list.type}>`;
+
+        if (listStack.length) {
+            const parentItems = listStack[listStack.length - 1].items;
+            if (parentItems.length) {
+                parentItems[parentItems.length - 1].children.push(listHtml);
+            } else {
+                // If no parent item exists yet, treat as sibling content.
+                html.push(listHtml);
+            }
+        } else {
+            html.push(listHtml);
+        }
+    };
+
+    const flushAllLists = () => {
+        while (listStack.length) popList();
     };
 
     cleanLines.forEach(rawLine => {
@@ -128,29 +143,46 @@ function markdownToHtml(markdown) {
 
         const headingMatch = line.match(/^(#{1,6})\s+(.*)$/);
         if (headingMatch) {
-            flushList();
+            flushAllLists();
             const level = headingMatch[1].length;
             html.push(`<h${level}>${inlineMarkdown(headingMatch[2])}</h${level}>`);
             return;
         }
 
-        const unorderedMatch = line.match(/^[-*+]\s+(.*)$/);
-        const orderedMatch = line.match(/^\d+\.\s+(.*)$/);
-        if (unorderedMatch || orderedMatch) {
-            const listType = orderedMatch ? 'ol' : 'ul';
-            const content = inlineMarkdown((orderedMatch || unorderedMatch)[1]);
-            if (currentListType && currentListType !== listType) {
-                flushList();
+        const listMatch = line.match(/^(\s*)([-*+]|(?:\d+\.))\s+(.*)$/);
+        if (listMatch) {
+            const indent = listMatch[1].replace(/\t/g, '    ').length;
+            let level = indent >= 4 ? Math.floor(indent / 4) : Math.floor(indent / 2);
+            if (listStack.length && level > listStack.length) {
+                level = listStack.length; // prevent skipping levels to keep nesting valid
             }
-            currentListType = listType;
-            listBuffer.push(content);
+            const listType = /^\d+\./.test(listMatch[2]) ? 'ol' : 'ul';
+            const content = inlineMarkdown(listMatch[3]);
+
+            while (listStack.length > level + 1) {
+                popList();
+            }
+
+            if (listStack.length === level + 1 && listStack[level].type !== listType) {
+                popList();
+            }
+
+            while (listStack.length < level + 1) {
+                listStack.push({ type: listType, items: [] });
+            }
+
+            if (listStack[level].type !== listType) {
+                listStack[level] = { type: listType, items: [] };
+            }
+
+            listStack[level].items.push({ content, children: [] });
             return;
         } else {
-            flushList();
+            flushAllLists();
         }
 
         if (!line.trim()) {
-            flushList();
+            flushAllLists();
             return;
         }
 
@@ -162,7 +194,7 @@ function markdownToHtml(markdown) {
         html.push(`<p>${inlineMarkdown(line)}</p>`);
     });
 
-    flushList();
+    flushAllLists();
     flushCode();
 
     // Append Footnotes
