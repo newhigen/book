@@ -179,8 +179,8 @@ publication_year: 2023
 - 구매 전 고객, 구매 후 고객
 
 [^1]: [[도서] 아주 작은 습관의 힘, 제임스 클리어, 2019](https://product.kyobobook.co.kr/detail/S000001813652)
-[^2]: [[책] 안다는 착각, 2025]({% post_url 2025-08-09-did-i-understand %})
-[^3]: [[책] INFJ 의사의 병원 일기, 2025]({% post_url 2025-08-10-infj-doctor %})
+[^2]: [[책] 안다는 착각, 2025]({% post_url 2025-08-09_did-i-understand %})
+[^3]: [[책] INFJ 의사의 병원 일기, 2025]({% post_url 2025-08-10_infj-doctor %})
 [^4]: [[도서] 실용주의 사고와 학습, 앤디 헌트, 1999](https://product.kyobobook.co.kr/detail/S000001766246)
 [^5]: [[도서] 제텔카스텐, 숀케 아렌스, 2023](https://product.kyobobook.co.kr/detail/S000208468354)
 [^6]: [[도서] 린 소프트웨어 개발, 메리 포펜딕, 2007](https://product.kyobobook.co.kr/detail/S000001469789)

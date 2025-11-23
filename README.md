@@ -25,3 +25,21 @@
 2. **Source**를 “Deploy from a branch”, **Branch**를 `main`으로 설정하면 자동으로 정적 사이트가 배포됩니다.
 
 이후 개인 fork에서 `books.csv`와 `favicon.ico`만 유지한 채 upstream 업데이트를 쉽게 받아 새로운 스타일이나 기능을 적용할 수 있습니다.
+
+## 서평 작성
+
+- `reviews/날짜_슬러그.md` 형태로 파일을 추가합니다. 예시:
+
+```
+---
+permalink: slug
+date: 2025-09-20
+title: 제목
+author: 저자명
+publication_year: 2024
+---
+
+본문을 Markdown으로 작성하세요. 중첩 리스트, 코드 블록, 이미지(`assets/` 경로) 등을 지원합니다.
+```
+
+- 목록: `review-list.html`에서 서평 목록을 확인하고, 개별 파일은 `review-detail.html?file=파일명.md`로 열립니다. permalinks는 배포 환경에 맞게 설정하세요.
