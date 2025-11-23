@@ -388,16 +388,18 @@ body {
 }
 
 .review-content p {
-    line-height: 1.6;
+    line-height: 1.45;
     margin: 8px 0;
 }
 
 .review-content blockquote {
     margin: 10px 0;
     padding: 8px 16px;
-    border-left: 4px solid #d0d7de;
-    background: #f6f8fa;
-    color: #24292e;
+    border-left: 3px solid #cdd9ed;
+    background: #f4f7fb;
+    color: #273248;
+    border-radius: 0;
+    font-style: normal;
 }
 
 .review-content ul,
@@ -471,39 +473,6 @@ body {
     margin-top: 16px;
 }
 
-@media (max-width: 640px) {
-    .review-container {
-        padding: 16px;
-    }
-
-    .review-header h1 {
-        font-size: 22px;
-    }
-
-    .review-meta,
-    .review-date,
-    .review-content {
-        font-size: 14px;
-    }
-
-    .review-content h1 {
-        font-size: 22px;
-    }
-
-    .review-content h2 {
-        font-size: 18px;
-    }
-
-    .review-content h3 {
-        font-size: 16px;
-    }
-
-    .review-content h4,
-    .review-content h5,
-    .review-content h6 {
-        font-size: 14px;
-    }
-}
 
 .books-column {
     flex: 1 1 360px;
@@ -735,9 +704,9 @@ body.dark-mode .review-content h6 {
 }
 
 body.dark-mode .review-content blockquote {
-    background: #161b22;
-    border-color: #30363d;
-    color: #8b949e;
+    background: #0e1726;
+    border-color: #293655;
+    color: #cdd6e5;
 }
 
 body.dark-mode .review-content code {
@@ -941,6 +910,12 @@ body.dark-mode .review-content a:hover {
         font-size: 11px;
     }
 
+    .review-content img {
+        width: 150px;
+        max-width: 150px;
+        height: auto;
+    }
+
     body {
         padding: 6px;
     }
@@ -1098,42 +1073,4 @@ body.dark-mode .review-title:hover {
 
 body.dark-mode .review-meta {
     color: #8b949e;
-}
-
-@media (max-width: 640px) {
-    .review-container {
-        padding-top: 60px;
-    }
-
-    .reviews-list-container {
-        padding-top: 56px;
-    }
-
-    .review-topbar,
-    .reviews-list-topbar {
-        position: absolute;
-        top: 12px;
-        right: 12px;
-        margin-bottom: 0;
-        gap: 10px;
-    }
-}
-
-@media (min-width: 641px) {
-    .review-container {
-        padding-top: 60px;
-    }
-
-    .reviews-list-container {
-        padding-top: 56px;
-    }
-
-    .review-topbar,
-    .reviews-list-topbar {
-        position: absolute;
-        top: 16px;
-        right: 16px;
-        margin-bottom: 0;
-        gap: 10px;
-    }
 }
