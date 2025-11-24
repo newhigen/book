@@ -100,10 +100,10 @@ const RELATIVE_TEXT = {
     },
     en: {
         today: 'Today',
-        day: n => `${n} days ago`,
-        week: n => `${n} weeks ago`,
-        month: n => `${n} months ago`,
-        year: n => `${n} years ago`
+        day: n => `${n} day${n === 1 ? '' : 's'}`,
+        week: n => `${n} week${n === 1 ? '' : 's'}`,
+        month: n => `${n} month${n === 1 ? '' : 's'}`,
+        year: n => `${n} year${n === 1 ? '' : 's'}`
     }
 };
 

@@ -32,6 +32,7 @@ function renderList(container, reviews) {
         return;
     }
 
+    let lastDateText = '';
     reviews.forEach(review => {
         const item = document.createElement('li');
         item.className = 'review-item reviews-archive-item';
@@ -46,17 +47,19 @@ function renderList(container, reviews) {
 
         // Determine language from document
         const lang = (document.documentElement.lang || 'ko').startsWith('en') ? 'en' : 'ko';
-        date.textContent = formatRelativeDate(review.date, lang);
+        const dateText = formatRelativeDate(review.date, lang);
+        date.textContent = dateText === lastDateText ? '' : dateText;
+        lastDateText = dateText;
 
-        item.appendChild(link);
         const isDetail = review.detail === true || review.detail === 'true' || review.detail === 'yes';
+        item.appendChild(date);
+        item.appendChild(link);
         if (!isDetail) {
             const badge = document.createElement('span');
             badge.className = 'review-short-badge';
             badge.textContent = 'Short';
             item.appendChild(badge);
         }
-        item.appendChild(date);
         list.appendChild(item);
     });
 
