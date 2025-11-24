@@ -523,11 +523,11 @@ function renderReviews() {
             return;
         }
 
-        const list = createEl('ul', 'review-list');
+        const list = createEl('ul', 'review-list recent-review-list');
         reviewsToShow.forEach(review => {
-            const item = createEl('li', 'review-item');
+            const item = createEl('li', 'review-item recent-review-item');
 
-            const link = createEl('a', 'review-title', review.title);
+            const link = createEl('a', 'review-title', getLocalizedReviewTitle(review));
             link.href = review.url || `review-detail.html?file=${encodeURIComponent(review.filename)}`;
             item.appendChild(link);
 
@@ -551,4 +551,12 @@ async function fetchReviewsIndex() {
 
 function getReviewsData() {
     return Array.isArray(window.REVIEWS) ? window.REVIEWS : [];
+}
+
+function getLocalizedReviewTitle(review) {
+    if (state.language !== 'en') return review.title;
+    const normalizedReviewTitle = normalizeText(review.title).toLowerCase();
+    const match = (state.books || []).find(book => getCanonicalTitle(book).toLowerCase() === normalizedReviewTitle);
+    if (match && normalizeText(match.englishTitle)) return match.englishTitle;
+    return review.title;
 }

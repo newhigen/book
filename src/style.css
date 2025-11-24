@@ -853,7 +853,7 @@ body.dark-mode .inline-thought {
 
 .review-title {
     font-size: 15px;
-    font-weight: 600;
+    font-weight: 500;
     color: #1f2328;
     text-decoration: none;
     line-height: 1.4;
@@ -878,13 +878,21 @@ body.dark-mode .inline-thought {
 }
 
 .review-list .review-title {
-    font-size: 14px;
+    font-size: 15px;
 }
 
 .review-list .review-date {
     color: #6a737d;
-    font-size: 12px;
+    font-size: 13px;
     white-space: nowrap;
+}
+
+.recent-review-item .review-title {
+    font-size: 13px;
+    max-width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 /* Reviews list page */
@@ -1066,6 +1074,7 @@ body.dark-mode .inline-thought {
 .reviews-list-container h1 {
     margin: 0 0 20px;
     font-size: 20px;
+    text-align: center;
 }
 
 .reviews-home-button {
