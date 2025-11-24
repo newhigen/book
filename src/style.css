@@ -481,6 +481,7 @@ body {
     color: #1f2930;
     padding: 0 4px;
     border-radius: 4px;
+    font-size: inherit;
     font-style: inherit;
     display: inline-block;
     white-space: nowrap;
@@ -987,12 +988,12 @@ body.dark-mode .inline-thought {
 
     .review-content ul,
     .review-content ol {
-        font-size: 11px;
+        font-size: 12px;
     }
 
     .review-content ul li,
     .review-content ol li {
-        font-size: 11px;
+        font-size: 12px;
     }
 
     .review-content ul ul,
@@ -1014,11 +1015,11 @@ body.dark-mode .inline-thought {
     }
 
     .review-content p {
-        font-size: 11px;
+        font-size: 12px;
     }
 
     .review-content blockquote {
-        font-size: 11px;
+        font-size: 12px;
     }
 
     .review-content img {
@@ -1029,6 +1030,7 @@ body.dark-mode .inline-thought {
 
     body {
         padding: 6px;
+        font-size: 14px;
     }
 
     .heatmap-wrapper,
@@ -1060,7 +1062,7 @@ body.dark-mode .inline-thought {
     }
 
     .markdown-body {
-        font-size: 11px;
+        font-size: 12px;
         line-height: 1.45;
     }
 
