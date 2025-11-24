@@ -10,7 +10,43 @@
     import { initTheme } from "{{ '/src/utils.js' | relative_url }}";
     document.addEventListener('DOMContentLoaded', () => {
       initTheme('theme-toggle');
+      wrapThoughts();
     });
+
+    function wrapThoughts() {
+      const root = document.querySelector('.review-content');
+      if (!root) return;
+      const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, null);
+      const targets = [];
+      while (walker.nextNode()) {
+        const node = walker.currentNode;
+        if (node.nodeValue.includes('「') && node.nodeValue.includes('」')) {
+          targets.push(node);
+        }
+      }
+      targets.forEach(node => {
+        const parts = node.nodeValue.split(/(「[^」]+」)/);
+        const frag = document.createDocumentFragment();
+        parts.forEach(part => {
+          if (!part) return;
+          const match = part.match(/^「([^」]+)」$/);
+          if (match) {
+            const span = document.createElement('span');
+            span.className = 'inline-thought';
+
+            const sup = document.createElement('sup');
+            sup.textContent = '💡';
+            span.appendChild(sup);
+
+            span.appendChild(document.createTextNode('' + match[1]));
+            frag.appendChild(span);
+          } else {
+            frag.appendChild(document.createTextNode(part));
+          }
+        });
+        node.parentNode.replaceChild(frag, node);
+      });
+    }
   </script>
 </head>
 
@@ -56,13 +92,13 @@
     </article>
     {%- assign weekday_number = page.date | date: "%w" -%}
     {%- case weekday_number -%}
-      {%- when "0" -%}{% assign weekday_ko = "일" %}
-      {%- when "1" -%}{% assign weekday_ko = "월" %}
-      {%- when "2" -%}{% assign weekday_ko = "화" %}
-      {%- when "3" -%}{% assign weekday_ko = "수" %}
-      {%- when "4" -%}{% assign weekday_ko = "목" %}
-      {%- when "5" -%}{% assign weekday_ko = "금" %}
-      {%- when "6" -%}{% assign weekday_ko = "토" %}
+    {%- when "0" -%}{% assign weekday_ko = "일" %}
+    {%- when "1" -%}{% assign weekday_ko = "월" %}
+    {%- when "2" -%}{% assign weekday_ko = "화" %}
+    {%- when "3" -%}{% assign weekday_ko = "수" %}
+    {%- when "4" -%}{% assign weekday_ko = "목" %}
+    {%- when "5" -%}{% assign weekday_ko = "금" %}
+    {%- when "6" -%}{% assign weekday_ko = "토" %}
     {%- endcase -%}
 
     <div class="review-footer">

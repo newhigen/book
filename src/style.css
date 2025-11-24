@@ -842,6 +842,15 @@ body.dark-mode .review-short-badge {
     color: #d1d5db;
 }
 
+.inline-thought {
+    font-size: 0.9em;
+    color: #4f6970;
+}
+
+body.dark-mode .inline-thought {
+    color: #9ab6bf;
+}
+
 .review-title {
     font-size: 15px;
     font-weight: 600;
