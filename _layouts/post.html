@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{{ page.title }}</title>
   <link rel="stylesheet" href="{{ '/src/style.css' | relative_url }}">
+  {% include google-analytics.html %}
   <script type="module">
     import { initTheme } from "{{ '/src/utils.js' | relative_url }}";
     document.addEventListener('DOMContentLoaded', () => {

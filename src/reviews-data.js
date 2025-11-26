@@ -12,6 +12,7 @@ window.REVIEWS = [
     permalink: {{ post.url | relative_url | jsonify }},
     filename: {{ post.path | split: "/" | last | jsonify }},
     publication_year: {{ post.publication_year | default: post.publicationYear | jsonify }},
+    summary_year: {{ post.summary_year | default: post.summaryYear | jsonify }},
     detail: {{ post.detail | default: false | jsonify }}
   }{% unless forloop.last %},{% endunless %}
 {%- endfor -%}

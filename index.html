@@ -1,3 +1,6 @@
+---
+layout: null
+---
 <!DOCTYPE html>
 <html lang="ko">
 
@@ -5,12 +8,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Books Read</title>
-    <link rel="stylesheet" href="src/style.css">
-    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="{{ '/src/style.css' | relative_url }}">
+    <link rel="icon" href="{{ '/favicon.ico' | relative_url }}" type="image/x-icon">
+    {% include google-analytics.html %}
 </head>
 
 <body>
-    <script src="src/reviews-data.js"></script>
+    <script src="{{ '/src/reviews-data.js' | relative_url }}"></script>
     <main>
         <div class="reading-layout">
             <div class="heatmap-wrapper">
@@ -38,7 +42,7 @@
         </div>
     </main>
 
-    <script src="src/home.js" type="module" defer></script>
+    <script src="{{ '/src/home.js' | relative_url }}" type="module" defer></script>
 </body>
 
 </html>

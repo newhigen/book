@@ -15,6 +15,11 @@ const MONTHS_PER_YEAR = 12;
 const MONTH_LABELS_EN = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 const LANGUAGE_EMOJI = { ko: '🇰🇷', en: '🇺🇸' };
 const DATA_FILES = ['books.csv', 'books.csv.example'];
+const REVIEW_TITLE_ALIASES = {
+    '이동진 독서법': '독서법',
+    '책 잘 읽는 방법': '독서법',
+    '진작 이렇게 책을 읽었더라면': '독서법'
+};
 
 const TEXT = {
     ko: {
@@ -36,7 +41,8 @@ const TEXT = {
         tooltipBullet: '•',
         reviewsTitle: '최근 후기',
         noReviews: '아직 작성된 서평이 없어요.',
-        reviewsListAria: '후기 목록 페이지로 이동'
+        reviewsListAria: '후기 목록 페이지로 이동',
+        summaryLabel: '결산'
     },
     en: {
         heatmapTitle: 'Reading Heatmap',
@@ -57,7 +63,8 @@ const TEXT = {
         tooltipBullet: '•',
         reviewsTitle: 'Recent Posts',
         noReviews: 'No posts yet.',
-        reviewsListAria: 'Go to posts list page'
+        reviewsListAria: 'Go to posts list page',
+        summaryLabel: 'Summary'
     }
 };
 
@@ -68,7 +75,8 @@ const state = {
     language: 'ko',
     yearRefs: [],
     reviews: [],
-    reviewLookup: new Map()
+    reviewLookup: new Map(),
+    summariesByYear: new Map()
 };
 
 const normalizeText = value => (value ?? '').trim();
@@ -289,7 +297,7 @@ function updateBookColumnsLanguage() {
     updateWithPreservedHeight(dom.pastList, () => {
         state.yearRefs.forEach(refs => {
             const books = state.booksByYear.get(refs.year) || [];
-            refs.heading.textContent = t('yearHeading', refs.year);
+            applyYearHeadingContent(refs.heading, refs.year);
             refs.summary.textContent = t('yearSummary', books.length);
             let lastMonth = null;
             books.forEach((book, index) => {
@@ -309,10 +317,30 @@ function updateBookColumnsLanguage() {
     });
 }
 
+function applyYearHeadingContent(headingEl, year) {
+    headingEl.textContent = t('yearHeading', year);
+    const summaryLink = createYearSummaryLink(year);
+    if (summaryLink) {
+        headingEl.appendChild(document.createTextNode(' '));
+        headingEl.appendChild(summaryLink);
+    }
+}
+
+function createYearSummaryLink(year) {
+    const summaryReview = state.summariesByYear.get(year);
+    if (!summaryReview) return null;
+    const link = createEl('a', 'year-summary-link', t('summaryLabel'));
+    link.href =
+        summaryReview.url || `review-detail.html?file=${encodeURIComponent(summaryReview.filename)}`;
+    link.setAttribute('aria-label', `${year} ${t('summaryLabel')}`);
+    return link;
+}
+
 function createYearSection(year) {
     const fragment = document.createDocumentFragment();
     const books = state.booksByYear.get(year) || [];
-    const heading = createEl('h2', null, t('yearHeading', year));
+    const heading = createEl('h2');
+    applyYearHeadingContent(heading, year);
     fragment.appendChild(heading);
     const summary = createEl('p', 'year-summary', t('yearSummary', books.length));
     fragment.appendChild(summary);
@@ -477,6 +505,7 @@ async function loadReviews() {
         }))
         .sort((a, b) => new Date(b.date) - new Date(a.date));
     buildReviewLookup(state.reviews);
+    buildSummaryLookup(state.reviews);
     return state.reviews.length > 0;
 }
 
@@ -496,9 +525,30 @@ function findReviewForBook(book) {
 
 function buildReviewLookup(reviews) {
     state.reviewLookup = new Map();
+    const titleToReview = new Map();
     reviews.forEach(review => {
         const normalizedTitle = normalizeText(review.title).toLowerCase();
-        if (normalizedTitle) state.reviewLookup.set(normalizedTitle, review);
+        if (normalizedTitle) {
+            state.reviewLookup.set(normalizedTitle, review);
+            titleToReview.set(normalizedTitle, review);
+        }
+    });
+    Object.entries(REVIEW_TITLE_ALIASES).forEach(([aliasTitle, targetTitle]) => {
+        const normalizedAlias = normalizeText(aliasTitle).toLowerCase();
+        const normalizedTarget = normalizeText(targetTitle).toLowerCase();
+        if (!normalizedAlias || !normalizedTarget) return;
+        if (titleToReview.has(normalizedAlias)) return;
+        const targetReview = titleToReview.get(normalizedTarget);
+        if (targetReview) state.reviewLookup.set(normalizedAlias, targetReview);
+    });
+}
+
+function buildSummaryLookup(reviews) {
+    state.summariesByYear = new Map();
+    reviews.forEach(review => {
+        const year = getSummaryYear(review);
+        if (!year) return;
+        if (!state.summariesByYear.has(year)) state.summariesByYear.set(year, review);
     });
 }
 
@@ -556,10 +606,39 @@ function getReviewsData() {
     return Array.isArray(window.REVIEWS) ? window.REVIEWS : [];
 }
 
+function getSummaryYear(review) {
+    const value = review.summary_year ?? review.summaryYear;
+    const year = parseInt(value, 10);
+    return Number.isFinite(year) ? year : null;
+}
+
+function isSummaryReview(review) {
+    return Boolean(getSummaryYear(review));
+}
+
+function isBookReview(review) {
+    const publicationYear = review.publication_year ?? review.publicationYear;
+    return Boolean(publicationYear);
+}
+
 function getLocalizedReviewTitle(review) {
-    if (state.language !== 'en') return review.title;
-    const normalizedReviewTitle = normalizeText(review.title).toLowerCase();
-    const match = (state.books || []).find(book => getCanonicalTitle(book).toLowerCase() === normalizedReviewTitle);
-    if (match && normalizeText(match.englishTitle)) return match.englishTitle;
-    return review.title;
+    const localizedTitle =
+        state.language !== 'en'
+            ? review.title
+            : (() => {
+                  const normalizedReviewTitle = normalizeText(review.title).toLowerCase();
+                  const match = (state.books || []).find(
+                      book => getCanonicalTitle(book).toLowerCase() === normalizedReviewTitle
+                  );
+                  if (match && normalizeText(match.englishTitle)) return match.englishTitle;
+                  return review.title;
+              })();
+
+    if (!isBookReview(review)) return localizedTitle;
+
+    const trimmedTitle = normalizeText(localizedTitle);
+    if (!trimmedTitle) return localizedTitle;
+
+    const alreadyWrapped = trimmedTitle.startsWith('『') && trimmedTitle.endsWith('』');
+    return alreadyWrapped ? trimmedTitle : `『${trimmedTitle}』`;
 }

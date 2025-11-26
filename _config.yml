@@ -8,3 +8,5 @@ defaults:
       type: posts
     values:
       layout: post
+
+google_analytics: G-8H5FW1Q707
