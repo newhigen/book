@@ -22,18 +22,8 @@ async function loadReviews() {
         .sort((a, b) => new Date(b.date) - new Date(a.date));
 }
 
-const getLang = () =>
-    (document.documentElement.lang || 'ko').startsWith('en') ? 'en' : 'ko';
-
 const normalizeText = value => (value ?? '').trim();
 const isBookReview = review => Boolean(review.publication_year ?? review.publicationYear);
-const getSummaryYear = review => {
-    const value = review.summary_year ?? review.summaryYear;
-    const year = parseInt(value, 10);
-    return Number.isFinite(year) ? year : null;
-};
-const isSummaryReview = review => Boolean(getSummaryYear(review));
-const getSummaryLabel = lang => (lang === 'en' ? '(Summary)' : '(결산)');
 
 function formatReviewTitle(review) {
     const title = normalizeText(review.title);
@@ -66,9 +56,7 @@ function renderList(container, reviews) {
         const date = document.createElement('span');
         date.className = 'review-date reviews-archive-date';
 
-        // Determine language from document
-        const lang = getLang();
-        const dateText = formatRelativeDate(review.date, lang);
+        const dateText = formatRelativeDate(review.date, 'ko');
         date.textContent = dateText === lastDateText ? '' : dateText;
         lastDateText = dateText;
 

@@ -12,67 +12,41 @@ const dom = {
 };
 
 const MONTHS_PER_YEAR = 12;
-const MONTH_LABELS_EN = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-const LANGUAGE_EMOJI = { ko: '🇰🇷', en: '🇺🇸' };
 const DATA_FILES = ['books.csv', 'books.csv.example'];
 const REVIEW_TITLE_ALIASES = {
     '이동진 독서법': '독서법',
     '책 잘 읽는 방법': '독서법',
     '진작 이렇게 책을 읽었더라면': '독서법'
 };
+const FLAG_EMOJI = { ko: '🇰🇷', en: '🇺🇸' };
 
-const TEXT = {
-    ko: {
-        heatmapTitle: '독서 히트맵',
-        totalBooks: count => `총 ${count}권 읽었어요`,
-        heatmapEmpty: '표시할 데이터가 없어요.',
-        loadError: '데이터를 불러오지 못했어요.',
-        noBooks: '표시할 책이 없어요.',
-        yearHeading: year => `${year}`,
-        yearSummary: count => `${count}권 읽음`,
-        formatMonth: month => `${month}월`,
-        tooltipHeader: (year, monthLabel, count) => `${year}년 ${monthLabel} · ${count}권`,
-        cellTitle: (year, monthLabel, count) => `${year}년 ${monthLabel}: ${count}권`,
-        rereadBadge: count => `${count}회차`,
-        yearTotal: count => `${count}`,
-        legendLabels: ['1', '2', '3', '4+'],
-        toggleLabel: 'English',
-        toggleAriaLabel: '영어로 전환',
-        tooltipBullet: '•',
-        reviewsTitle: '최근 후기',
-        noReviews: '아직 작성된 서평이 없어요.',
-        reviewsListAria: '후기 목록 페이지로 이동',
-        summaryLabel: '결산'
-    },
-    en: {
-        heatmapTitle: 'Reading Heatmap',
-        totalBooks: count => `Read ${count} books in total`,
-        heatmapEmpty: 'No reading data yet.',
-        loadError: 'Unable to load data.',
-        noBooks: 'No books to show.',
-        yearHeading: year => `${year}`,
-        yearSummary: count => `Read ${count} books`,
-        formatMonth: month => MONTH_LABELS_EN[month - 1] || `M${month}`,
-        tooltipHeader: (year, monthLabel, count) => `${monthLabel} ${year} · ${count} books`,
-        cellTitle: (year, monthLabel, count) => `${monthLabel} ${year}: ${count} books`,
-        rereadBadge: count => `${count}x read`,
-        yearTotal: count => `${count}`,
-        legendLabels: ['1', '2', '3', '4+'],
-        toggleLabel: '한국어',
-        toggleAriaLabel: 'Switch to Korean',
-        tooltipBullet: '•',
-        reviewsTitle: 'Recent Posts',
-        noReviews: 'No posts yet.',
-        reviewsListAria: 'Go to posts list page',
-        summaryLabel: 'Summary'
-    }
+const COPY = {
+    heatmapTitle: '독서 히트맵',
+    totalBooks: count => `총 ${count}권 읽었어요`,
+    heatmapEmpty: '표시할 데이터가 없어요.',
+    loadError: '데이터를 불러오지 못했어요.',
+    noBooks: '표시할 책이 없어요.',
+    yearHeading: year => `${year}`,
+    yearSummary: count => `${count}권 읽음`,
+    formatMonth: month => `${month}월`,
+    tooltipHeader: (year, monthLabel, count) => `${year}년 ${monthLabel} · ${count}권`,
+    cellTitle: (year, monthLabel, count) => `${year}년 ${monthLabel}: ${count}권`,
+    rereadBadge: count => `${count}회차`,
+    yearTotal: count => `${count}`,
+    legendLabels: ['1', '2', '3', '4+'],
+    toggleAriaLabel: '제목 언어 전환',
+    tooltipBullet: '•',
+    reviewsTitle: '최근 후기',
+    noReviews: '아직 작성된 서평이 없어요.',
+    reviewsListAria: '후기 목록 페이지로 이동',
+    summaryLabel: '결산'
 };
 
 const state = {
     books: [],
     booksByYear: new Map(),
     heatmapBuckets: new Map(),
-    language: 'ko',
+    titleLanguage: 'ko',
     yearRefs: [],
     reviews: [],
     reviewLookup: new Map(),
@@ -82,12 +56,12 @@ const state = {
 const normalizeText = value => (value ?? '').trim();
 const getCanonicalTitle = book => normalizeText(book.title) || normalizeText(book.englishTitle);
 const getLocalizedTitle = book =>
-    state.language === 'ko'
+    state.titleLanguage === 'ko'
         ? (normalizeText(book.title) || normalizeText(book.englishTitle))
         : (normalizeText(book.englishTitle) || normalizeText(book.title));
 
 const t = (key, ...args) => {
-    const value = TEXT[state.language][key];
+    const value = COPY[key];
     return typeof value === 'function' ? value(...args) : value;
 };
 
@@ -110,7 +84,7 @@ function initLanguageToggle() {
     if (!dom.languageToggle) return;
     updateLanguageToggleUI();
     dom.languageToggle.addEventListener('click', () => {
-        state.language = state.language === 'ko' ? 'en' : 'ko';
+        state.titleLanguage = state.titleLanguage === 'ko' ? 'en' : 'ko';
         updateLanguageToggleUI();
         renderAll();
     });
@@ -118,10 +92,16 @@ function initLanguageToggle() {
 
 function updateLanguageToggleUI() {
     if (!dom.languageToggle) return;
-    dom.languageToggle.textContent = LANGUAGE_EMOJI[state.language];
-    dom.languageToggle.setAttribute('aria-label', t('toggleAriaLabel'));
-    dom.languageToggle.setAttribute('aria-pressed', state.language === 'en');
-    document.documentElement.lang = state.language;
+    dom.languageToggle.innerHTML = '';
+    const label = createEl('span', 'language-label', '제목');
+    const flag = createEl('span', 'language-flag', FLAG_EMOJI[state.titleLanguage]);
+    dom.languageToggle.appendChild(label);
+    dom.languageToggle.appendChild(flag);
+    dom.languageToggle.setAttribute(
+        'aria-label',
+        `${t('toggleAriaLabel')} (${state.titleLanguage === 'en' ? '영어' : '한글'})`
+    );
+    dom.languageToggle.setAttribute('aria-pressed', state.titleLanguage === 'en');
 }
 
 async function loadBooks() {
@@ -578,7 +558,7 @@ function renderReviews() {
         reviewsToShow.forEach(review => {
             const item = createEl('li', 'review-item recent-review-item');
 
-            const dateText = formatRelativeDate(review.date, state.language);
+            const dateText = formatRelativeDate(review.date, 'ko');
             const dateSpan = createEl('span', 'review-date', dateText === lastDateText ? '' : dateText);
             item.appendChild(dateSpan);
             lastDateText = dateText;
@@ -622,22 +602,11 @@ function isBookReview(review) {
 }
 
 function getLocalizedReviewTitle(review) {
-    const localizedTitle =
-        state.language !== 'en'
-            ? review.title
-            : (() => {
-                  const normalizedReviewTitle = normalizeText(review.title).toLowerCase();
-                  const match = (state.books || []).find(
-                      book => getCanonicalTitle(book).toLowerCase() === normalizedReviewTitle
-                  );
-                  if (match && normalizeText(match.englishTitle)) return match.englishTitle;
-                  return review.title;
-              })();
+    const baseTitle = review.title;
+    if (!isBookReview(review)) return baseTitle;
 
-    if (!isBookReview(review)) return localizedTitle;
-
-    const trimmedTitle = normalizeText(localizedTitle);
-    if (!trimmedTitle) return localizedTitle;
+    const trimmedTitle = normalizeText(baseTitle);
+    if (!trimmedTitle) return baseTitle;
 
     const alreadyWrapped = trimmedTitle.startsWith('『') && trimmedTitle.endsWith('』');
     return alreadyWrapped ? trimmedTitle : `『${trimmedTitle}』`;
