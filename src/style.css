@@ -427,6 +427,12 @@ body {
     color: #1f2933;
     font-style: normal;
     box-shadow: 0 4px 10px rgba(15, 77, 168, 0.06);
+    font-size: 15px;
+    line-height: 1.45;
+}
+
+.review-content blockquote p {
+    font-size: inherit;
 }
 
 .review-content ul,
@@ -965,6 +971,63 @@ body.dark-mode .review-short-badge {
 .inline-thought {
     font-size: 0.9em;
     color: #4f6970;
+}
+
+.info-tip {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: rgba(15, 77, 168, 0.12);
+    color: #0f4da8;
+    border: 1px solid rgba(15, 77, 168, 0.35);
+    font-size: 9px;
+    line-height: 1;
+    margin-left: 6px;
+    cursor: help;
+    vertical-align: super;
+    transform: translateY(-2px);
+    position: relative;
+}
+
+.info-tip::after {
+    content: attr(data-tip);
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, 6px);
+    bottom: -9999px;
+    min-width: 220px;
+    max-width: 320px;
+    padding: 8px 10px;
+    background: #0f172a;
+    color: #f8fafc;
+    border-radius: 6px;
+    font-size: 11px;
+    line-height: 1.4;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.18);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.15s ease, bottom 0.15s ease;
+    z-index: 20;
+    white-space: normal;
+}
+
+.info-tip:focus::after,
+.info-tip:hover::after {
+    opacity: 1;
+    bottom: -8px;
+}
+
+body:not(.dark-mode) .info-tip::after {
+    background: #1f2937;
+}
+
+body.dark-mode .info-tip {
+    background: rgba(156, 196, 255, 0.12);
+    border-color: rgba(156, 196, 255, 0.35);
+    color: #b8d7ff;
 }
 
 body.dark-mode .inline-thought {
