@@ -10,3 +10,6 @@ defaults:
       layout: post
 
 google_analytics: G-8H5FW1Q707
+
+plugins:
+  - jekyll-sitemap
