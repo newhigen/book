@@ -150,7 +150,6 @@ body {
     width: 100%;
     text-align: center;
     min-height: 64px;
-    margin-bottom: 8px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -176,6 +175,45 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+.heatmap-hint {
+    font-size: 11px;
+    color: #8898a6;
+    background: #ffffff;
+    border: 1px solid #c7d7ff;
+    border-radius: 14px;
+    padding: 6px 10px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    margin-top: 6px;
+    max-width: 160px;
+    line-height: 1.3;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+    position: relative;
+    align-self: center;
+    transform: translateX(14px);
+    overflow: visible;
+    z-index: 2;
+    margin-bottom: 10px;
+}
+
+.heatmap-hint::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    bottom: -6px;
+    width: 10px;
+    height: 10px;
+    background: #ffffff;
+    border: 1px solid transparent;
+    border-bottom-color: #c7d7ff;
+    border-right-color: #c7d7ff;
+    transform: translateX(-50%) rotate(45deg);
+    box-shadow: none;
+    z-index: 1;
 }
 
 .heatmap-empty {
@@ -615,7 +653,8 @@ body.dark-mode .markdown-body hi {
     height: 20px;
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: flex-start;
+    gap: 4px;
     width: 100%;
     background: none;
     border: none;
@@ -631,10 +670,15 @@ body.dark-mode .markdown-body hi {
 }
 
 .year-summary-text {
-    flex: 1;
+    flex: 0 0 auto;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+}
+
+.year-toggle-icon {
+    position: relative;
+    top: -1px;
 }
 
 .year-toggle-icon {

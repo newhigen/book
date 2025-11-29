@@ -479,6 +479,8 @@ function createHeatmapHeader(totalCount) {
     const header = createEl('div', 'heatmap-header');
     header.appendChild(createEl('h2', 'heatmap-title', t('heatmapTitle')));
     header.appendChild(createEl('p', 'heatmap-summary', t('totalBooks', totalCount)));
+    const hint = createEl('span', 'heatmap-hint', '커서를 올려보세요 ✨');
+    header.appendChild(hint);
     return header;
 }
 
