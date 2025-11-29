@@ -22,6 +22,7 @@ const REVIEW_TITLE_ALIASES = {
 };
 const FLAG_EMOJI = { ko: '🇰🇷', en: '🇺🇸' };
 const BLOG_URL = 'https://newhigen.github.io/';
+const GITHUB_URL = 'https://github.com/newhigen/books';
 
 const COPY = {
     heatmapTitle: '독서 히트맵',
@@ -81,7 +82,7 @@ async function init() {
         renderAll();
     } else {
         renderReviews();
-        renderBlogLinks();
+        renderExternalLinks();
     }
 }
 
@@ -187,7 +188,7 @@ function renderAll() {
     renderHeatmap();
     renderBookColumns();
     renderReviews();
-    renderBlogLinks();
+    renderExternalLinks();
 }
 
 function renderHeatmap() {
@@ -665,21 +666,29 @@ function getLocalizedReviewTitle(review) {
     return alreadyWrapped ? trimmedTitle : `『${trimmedTitle}』`;
 }
 
-function renderBlogLinks() {
-    renderSingleBlogLink(dom.blogDesktop, 'desktop');
-    renderSingleBlogLink(dom.blogMobile, 'mobile');
+function renderExternalLinks() {
+    renderSingleExternalLinks(dom.blogDesktop);
+    renderSingleExternalLinks(dom.blogMobile);
 }
 
-function renderSingleBlogLink(container, variant) {
+function renderSingleExternalLinks(container) {
     if (!container) return;
     updateWithPreservedHeight(container, () => {
         container.innerHTML = '';
-        const wrapper = createEl('div', `blog-link-container ${variant === 'mobile' ? 'blog-link-mobile' : 'blog-link-desktop'}`);
-        const blogLink = createEl('a', 'blog-link-button', '블로그');
-        blogLink.href = BLOG_URL;
-        blogLink.target = '_blank';
-        blogLink.rel = 'noopener noreferrer';
+        const wrapper = createEl('div', 'blog-link-container');
+        const blogLink = createExternalLink('블로그', BLOG_URL);
+        const githubLink = createExternalLink('GitHub', GITHUB_URL);
         wrapper.appendChild(blogLink);
+        wrapper.appendChild(githubLink);
         container.appendChild(wrapper);
     });
+}
+
+function createExternalLink(label, url) {
+    const link = createEl('a', 'blog-link-button');
+    link.innerHTML = `${label}<sup>↗</sup>`;
+    link.href = url;
+    link.target = '_blank';
+    link.rel = 'noopener noreferrer';
+    return link;
 }

@@ -60,6 +60,15 @@ body {
     width: 100%;
 }
 
+.books-and-links {
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+    align-items: flex-start;
+    justify-content: flex-start;
+    width: 100%;
+}
+
 .floating-controls {
     position: absolute;
     top: 32px;
@@ -989,7 +998,10 @@ body.dark-mode .blog-link-button:hover {
 
 .blog-link-container {
     display: flex;
+    flex-direction: row;
     justify-content: flex-start;
+    align-items: center;
+    gap: 4px;
     width: 100%;
 }
 
@@ -997,33 +1009,31 @@ body.dark-mode .blog-link-button:hover {
     position: relative;
     display: inline-flex;
     align-items: center;
-    padding: 8px 18px 8px 14px;
+    padding: 6px 10px;
     border-radius: 10px;
     border: 1px solid #d1d5db;
     background: #f8fafc;
-    color: #0f4da8;
-    font-size: 13px;
-    font-weight: 700;
+    color: #2d5fa7;
+    font-size: 12px;
+    font-weight: 500;
     text-decoration: none;
     box-shadow: 0 2px 8px rgba(15, 77, 168, 0.12);
     transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease, color 0.15s ease;
 }
 
-.blog-link-button::after {
-    content: '↗';
-    position: absolute;
-    top: 6px;
-    right: 10px;
-    font-size: 11px;
+.blog-link-button sup {
+    font-size: 10px;
+    margin-left: 3px;
     line-height: 1;
+    position: relative;
+    top: -0.3em;
 }
 
 .blog-link-desktop {
     display: flex;
-    margin-top: 2px;
+    margin-top: 4px;
     justify-content: flex-start;
-    width: 100%;
-    max-width: 360px;
+    width: auto;
     align-self: flex-start;
 }
 
@@ -1038,6 +1048,42 @@ body.dark-mode .blog-link-button:hover {
     box-shadow: 0 6px 16px rgba(15, 77, 168, 0.18);
     background: #eef2ff;
     color: #0b3580;
+}
+
+.external-links-desktop {
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+    align-self: flex-start;
+    flex-wrap: wrap;
+    width: 100%;
+}
+
+.external-links-mobile {
+    display: none;
+    flex-direction: row;
+    gap: 8px;
+    margin-top: 8px;
+    width: 100%;
+}
+
+.external-links-desktop .blog-link-button,
+.external-links-mobile .blog-link-button {
+    margin: 0;
+}
+
+@media (max-width: 720px) {
+    .books-and-links {
+        flex-direction: column;
+    }
+
+    .external-links-desktop {
+        display: none;
+    }
+
+    .external-links-mobile {
+        display: flex;
+    }
 }
 
 .reviews-header h2 {
@@ -1231,6 +1277,21 @@ body.dark-mode .inline-thought {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+}
+
+@media (min-width: 720px) {
+    .books-and-links {
+        flex-direction: row;
+        align-items: flex-start;
+    }
+
+    .external-links-desktop {
+        display: flex;
+    }
+
+    .external-links-mobile {
+        display: none;
+    }
 }
 
 /* Reviews list page */
