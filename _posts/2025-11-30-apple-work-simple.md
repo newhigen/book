@@ -1,5 +1,5 @@
 ---
-title: Apple에서는 단순하게 일합니다
+title: 애플에서는 단순하게 일합니다
 date: 2025-11-30
 categories: 책
 author: 박지수
