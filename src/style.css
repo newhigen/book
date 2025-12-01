@@ -832,6 +832,19 @@ body.dark-mode .year-toggle-icon {
     color: #9ea7b3;
 }
 
+body.dark-mode .heatmap-hint {
+    color: #cdd6e3;
+    background: #161b22;
+    border-color: #30363d;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4);
+}
+
+body.dark-mode .heatmap-hint::after {
+    background: #161b22;
+    border-bottom-color: #30363d;
+    border-right-color: #30363d;
+}
+
 body.dark-mode .year-summary-link {
     color: #9cc4ff;
     background: rgba(156, 196, 255, 0.1);
