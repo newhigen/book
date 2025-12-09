@@ -1,7 +1,7 @@
 # Books & Reviews Site
 
 <p align="center">
-<img width="400" src="./assets/screenshot_251130.png" alt="사이트 미리보기" style="border-radius: 4px; border: 1px solid #ddd;"/>
+<img width="400" src="./assets/screenshot.png" alt="사이트 미리보기" style="border-radius: 4px; border: 1px solid #ddd;"/>
 <p/>
 
 독서 기록은 `books.csv`, 후기는 `_posts`에 Markdown으로 추가합니다. 리스트·히트맵·후기 목록이 자동 생성되며 언어/다크 모드 토글과 N회차 표시를 지원합니다.
