@@ -14,6 +14,7 @@
       initTheme('theme-toggle');
       wrapThoughts();
       buildTableOfContents();
+      wireTocShortcuts();
     });
 
     function wrapThoughts() {
@@ -108,6 +109,24 @@
 
       list.appendChild(fragment);
     }
+
+    function wireTocShortcuts() {
+      const toTop = document.querySelector('.toc-action.toc-top');
+      const toBottom = document.querySelector('.toc-action.toc-bottom');
+
+      if (toTop) {
+        toTop.addEventListener('click', () => {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+      }
+
+      if (toBottom) {
+        toBottom.addEventListener('click', () => {
+          const target = document.querySelector('.review-footer') || document.body;
+          target.scrollIntoView({ behavior: 'smooth', block: 'end' });
+        });
+      }
+    }
   </script>
 </head>
 
@@ -172,6 +191,10 @@
     <nav class="review-toc" aria-label="목차">
       <div class="toc-title">목차</div>
       <ol class="toc-list"></ol>
+      <div class="toc-actions">
+        <button type="button" class="toc-action toc-top" aria-label="맨 위로">⇡</button>
+        <button type="button" class="toc-action toc-bottom" aria-label="맨 아래로">⇣</button>
+      </div>
     </nav>
   </main>
 </body>
