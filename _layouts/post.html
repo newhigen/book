@@ -13,6 +13,7 @@
     document.addEventListener('DOMContentLoaded', () => {
       initTheme('theme-toggle');
       wrapThoughts();
+      buildTableOfContents();
     });
 
     function wrapThoughts() {
@@ -49,64 +50,129 @@
         node.parentNode.replaceChild(frag, node);
       });
     }
+
+    function buildTableOfContents() {
+      const contentRoot = document.querySelector('.review-content');
+      const tocRoot = document.querySelector('.review-toc');
+      const shell = document.querySelector('.review-shell');
+      const list = tocRoot?.querySelector('.toc-list');
+      if (!contentRoot || !tocRoot || !list) return;
+
+      const headings = Array.from(contentRoot.querySelectorAll('h1, h2, h3')).filter(
+        heading => heading.textContent && heading.textContent.trim()
+      );
+
+      if (!headings.length) {
+        tocRoot.classList.add('is-empty');
+        shell?.classList.remove('has-toc');
+        return;
+      }
+      shell?.classList.add('has-toc');
+
+      const usedIds = new Set();
+      const slugify = text => {
+        const base = text
+          .toLowerCase()
+          .trim()
+          .replace(/[^a-z0-9\uac00-\ud7a3\s-]/g, '')
+          .replace(/\s+/g, '-')
+          .replace(/-+/g, '-')
+          .replace(/^-+|-+$/g, '');
+        return base || 'section';
+      };
+
+      const fragment = document.createDocumentFragment();
+
+      headings.forEach(heading => {
+        const level = Math.min(parseInt(heading.tagName.replace('H', ''), 10) || 1, 3);
+        const text = heading.textContent.trim();
+        const baseId = heading.id || slugify(text);
+        let uniqueId = baseId;
+        let suffix = 2;
+        while (usedIds.has(uniqueId)) {
+          uniqueId = `${baseId}-${suffix}`;
+          suffix += 1;
+        }
+
+        heading.id = uniqueId;
+        usedIds.add(uniqueId);
+
+        const li = document.createElement('li');
+        const link = document.createElement('a');
+        link.href = `#${uniqueId}`;
+        link.textContent = text;
+        link.className = `toc-link depth-${level}`;
+        li.appendChild(link);
+        fragment.appendChild(li);
+      });
+
+      list.appendChild(fragment);
+    }
   </script>
 </head>
 
 <body class="review-page">
-  <main class="review-container">
-    <div class="review-topbar">
-      <div class="review-nav-buttons">
-        <a class="nav-button list-button" href="{{ '/reviews/' | relative_url }}" aria-label="서평 목록으로">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-            stroke-linecap="round" stroke-linejoin="round">
-            <line x1="8" y1="6" x2="21" y2="6"></line>
-            <line x1="8" y1="12" x2="21" y2="12"></line>
-            <line x1="8" y1="18" x2="21" y2="18"></line>
-            <line x1="3" y1="6" x2="3.01" y2="6"></line>
-            <line x1="3" y1="12" x2="3.01" y2="12"></line>
-            <line x1="3" y1="18" x2="3.01" y2="18"></line>
-          </svg>
-        </a>
-        <button id="theme-toggle" class="nav-button theme-toggle" aria-label="Switch to dark mode">☀️</button>
-        <a class="nav-button home-button" href="{{ '/' | relative_url }}" aria-label="홈으로">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-            <polyline points="9 22 9 12 15 12 15 22"></polyline>
-          </svg>
-        </a>
+  <main class="review-shell">
+    <div class="review-container">
+      <div class="review-topbar">
+        <div class="review-nav-buttons">
+          <a class="nav-button list-button" href="{{ '/reviews/' | relative_url }}" aria-label="서평 목록으로">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round">
+              <line x1="8" y1="6" x2="21" y2="6"></line>
+              <line x1="8" y1="12" x2="21" y2="12"></line>
+              <line x1="8" y1="18" x2="21" y2="18"></line>
+              <line x1="3" y1="6" x2="3.01" y2="6"></line>
+              <line x1="3" y1="12" x2="3.01" y2="12"></line>
+              <line x1="3" y1="18" x2="3.01" y2="18"></line>
+            </svg>
+          </a>
+          <button id="theme-toggle" class="nav-button theme-toggle" aria-label="Switch to dark mode">☀️</button>
+          <a class="nav-button home-button" href="{{ '/' | relative_url }}" aria-label="홈으로">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+              <polyline points="9 22 9 12 15 12 15 22"></polyline>
+            </svg>
+          </a>
+        </div>
+      </div>
+
+      <div class="review-header">
+        <h1>{{ page.title }}</h1>
+        <p class="review-meta">
+          {{ page.author }}
+          {%- assign pub_year = page.publication_year | default: page.publicationYear -%}
+          {%- if pub_year -%}
+          · {{ pub_year }}
+          {%- endif -%}
+        </p>
+      </div>
+
+      <article class="review-content markdown-body">
+        {{ content }}
+      </article>
+      {%- assign weekday_number = page.date | date: "%w" -%}
+      {%- case weekday_number -%}
+      {%- when "0" -%}{% assign weekday_ko = "일" %}
+      {%- when "1" -%}{% assign weekday_ko = "월" %}
+      {%- when "2" -%}{% assign weekday_ko = "화" %}
+      {%- when "3" -%}{% assign weekday_ko = "수" %}
+      {%- when "4" -%}{% assign weekday_ko = "목" %}
+      {%- when "5" -%}{% assign weekday_ko = "금" %}
+      {%- when "6" -%}{% assign weekday_ko = "토" %}
+      {%- endcase -%}
+
+      <div class="review-footer">
+        <span class="review-date">
+          {{ page.date | date: "%Y년 %-m월 %-d일" }} ({{ weekday_ko }})
+        </span>
       </div>
     </div>
 
-    <div class="review-header">
-      <h1>{{ page.title }}</h1>
-      <p class="review-meta">
-        {{ page.author }}
-        {%- assign pub_year = page.publication_year | default: page.publicationYear -%}
-        {%- if pub_year -%}
-        · {{ pub_year }}
-        {%- endif -%}
-      </p>
-    </div>
-
-    <article class="review-content markdown-body">
-      {{ content }}
-    </article>
-    {%- assign weekday_number = page.date | date: "%w" -%}
-    {%- case weekday_number -%}
-    {%- when "0" -%}{% assign weekday_ko = "일" %}
-    {%- when "1" -%}{% assign weekday_ko = "월" %}
-    {%- when "2" -%}{% assign weekday_ko = "화" %}
-    {%- when "3" -%}{% assign weekday_ko = "수" %}
-    {%- when "4" -%}{% assign weekday_ko = "목" %}
-    {%- when "5" -%}{% assign weekday_ko = "금" %}
-    {%- when "6" -%}{% assign weekday_ko = "토" %}
-    {%- endcase -%}
-
-    <div class="review-footer">
-      <span class="review-date">
-        {{ page.date | date: "%Y년 %-m월 %-d일" }} ({{ weekday_ko }})
-      </span>
-    </div>
+    <nav class="review-toc" aria-label="목차">
+      <div class="toc-title">목차</div>
+      <ol class="toc-list"></ol>
+    </nav>
   </main>
 </body>
 
